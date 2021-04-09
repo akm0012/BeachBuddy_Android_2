@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val randomBeachConditions = BeachConditions(
                     timeUpdated = listOf(1L, 2, 3, 4, 5).shuffled().first(),
-                    flagColor = listOf("Green", "Red", "Purple", "Yellow").shuffled().first(),
+                    _flagColor = listOf("Green", "Red", "Purple", "Yellow").shuffled().first(),
                     surfCondition = listOf("Rough", "Calm", "Moderate").shuffled().first(),
                     surfHeight = listOf("1 ft", "2 ft", "3, ft").shuffled().first(),
                     respiratoryIrritation = listOf("Preset", "Not present").shuffled().first(),
