@@ -41,15 +41,9 @@ data class CurrentWeather(
     var secondaryDescription: String = "",
 
     var iconTemplate: String = "",
-
-    var beachConditions: BeachConditions? = null,
-
-    var currentUvInfo: CurrentUvInfo? = null
 ) {
     constructor(
         weatherDto: WeatherInfoDto,
-        beachConditionsDto: BeachConditionsDto?,
-        uvDto: CurrentUvDto?
     ) : this() {
 
         val currentWeatherDto = weatherDto.current
@@ -70,9 +64,5 @@ data class CurrentWeather(
         mainDescription = currentWeatherDto.weather[0].main
         secondaryDescription = currentWeatherDto.weather[0].description
         iconTemplate = currentWeatherDto.weather[0].icon
-
-        beachConditions = beachConditionsDto?.let { BeachConditions(it) }
-
-        currentUvInfo = uvDto?.let { CurrentUvInfo(it) }
     }
 }
