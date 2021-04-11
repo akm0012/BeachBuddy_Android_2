@@ -1,5 +1,6 @@
 package com.andrewkingmarshall.beachbuddy2.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.andrewkingmarshall.beachbuddy.network.dtos.RequestedItemDto
@@ -21,6 +22,7 @@ data class RequestedItem(
 
     var completedAtTime: Long? = null,
 
+    @ColumnInfo(index = true)
     var requestorId: String = "",
 
     var requestorFirstName: String = "",

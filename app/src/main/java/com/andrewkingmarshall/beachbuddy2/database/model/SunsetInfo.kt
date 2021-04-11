@@ -9,7 +9,7 @@ import org.joda.time.DateTimeZone
 @Entity
 data class SunsetInfo(
     @PrimaryKey
-    var id: String = "SunsetInfo",
+    var id: String = "SunsetInfoPrimaryKey",
 
     var sunrise: Long = 0,
 

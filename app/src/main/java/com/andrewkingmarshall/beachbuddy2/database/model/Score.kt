@@ -9,7 +9,7 @@ import com.andrewkingmarshall.beachbuddy.network.dtos.ScoreDto
 data class Score(
 
     @PrimaryKey
-    var id: String = "",
+    var scoreId: String = "",
 
     var name: String = "",
 
@@ -19,7 +19,7 @@ data class Score(
     var userId: String = ""
 ) {
     constructor(scoreDto: ScoreDto) : this() {
-        id = scoreDto.id
+        scoreId = scoreDto.id
         name = scoreDto.name
         winCount = scoreDto.winCount
         userId = scoreDto.userId

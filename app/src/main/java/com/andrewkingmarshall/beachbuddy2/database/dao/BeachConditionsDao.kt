@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BeachConditionsDao {
 
-    @Query("SELECT * FROM beachconditions WHERE id = 'BeachConditionsPrimaryKey'")
+    @Query("SELECT * FROM BeachConditions WHERE id = 'BeachConditionsPrimaryKey'")
     fun getBeachConditions(): Flow<BeachConditions>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

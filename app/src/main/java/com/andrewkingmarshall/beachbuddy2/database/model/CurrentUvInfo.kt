@@ -8,7 +8,7 @@ import com.andrewkingmarshall.beachbuddy.network.dtos.CurrentUvDto
 data class CurrentUvInfo(
 
     @PrimaryKey
-    var id:String = "CurrentUvInfo.PrimaryKey",
+    var id:String = "CurrentUvInfoPrimaryKey",
 
     var currentUv: Double = 0.0,
 

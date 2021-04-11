@@ -8,7 +8,7 @@ import com.andrewkingmarshall.beachbuddy.network.dtos.UserDto
 data class User(
 
     @PrimaryKey
-    var id: String = "",
+    var userId: String = "",
 
     var firstName: String = "",
 
@@ -24,10 +24,10 @@ data class User(
 
     var totalScore: Int = 0,
 
-    var scores: RealmList<Score> = RealmList()
+//    var scores: RealmList<Score> = RealmList()
 ) {
     constructor(userDto: UserDto) : this() {
-        id = userDto.id
+        userId = userDto.id
         firstName = userDto.firstName
         lastName = userDto.lastName
         fullName = userDto.fullName
@@ -37,7 +37,7 @@ data class User(
 
         for (scoreDto in userDto.scores) {
             totalScore += scoreDto.winCount
-            scores.add(Score(scoreDto))
+//            scores.add(Score(scoreDto))
         }
     }
 }
