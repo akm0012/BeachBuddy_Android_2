@@ -25,11 +25,17 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDailyWeather(dailyWeatherInfo: DailyWeatherInfo)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDailyWeatherList(dailyWeatherInfo: List<DailyWeatherInfo>)
+
     @Query("SELECT * FROM DailyWeatherInfo")
     fun getDailyWeather(): Flow<List<DailyWeatherInfo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHourlyWeather(hourlyWeatherInfo: HourlyWeatherInfo)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertHourlyWeatherList(hourlyWeatherInfo: List<HourlyWeatherInfo>)
 
     @Query("SELECT * FROM HourlyWeatherInfo")
     fun getHourlyWeather(): Flow<List<HourlyWeatherInfo>>
