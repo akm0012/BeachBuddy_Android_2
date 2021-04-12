@@ -1,60 +1,55 @@
 package com.andrewkingmarshall.beachbuddy2.ui
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import androidx.room.Room
 import com.andrewkingmarshall.beachbuddy2.R
 import com.andrewkingmarshall.beachbuddy2.database.AppDatabase
 import com.andrewkingmarshall.beachbuddy2.database.model.BeachConditions
+import com.andrewkingmarshall.beachbuddy2.viewmodels.MainActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    val db by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "database-name"
-        ).build()
-    }
+    lateinit var viewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        lifecycleScope.launch {
-            db.beachConditionsDao().getBeachConditions().collect {
-                Timber.d("$it")
-            }
-        }
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
-        saveRandomBeachConditions.setOnClickListener {
+        setUpNavigation()
+    }
 
-            lifecycleScope.launch {
-                val randomBeachConditions = BeachConditions(
-                    timeUpdated = listOf(1L, 2, 3, 4, 5).shuffled().first(),
-                    _flagColor = listOf("Green", "Red", "Purple", "Yellow").shuffled().first(),
-                    surfCondition = listOf("Rough", "Calm", "Moderate").shuffled().first(),
-                    surfHeight = listOf("1 ft", "2 ft", "3, ft").shuffled().first(),
-                    respiratoryIrritation = listOf("Preset", "Not present").shuffled().first(),
-                    jellyFish = listOf("Preset", "Not present").shuffled().first(),
-                )
+    private fun setUpNavigation() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
-                db.beachConditionsDao().insertBeachConditions(randomBeachConditions)
-            }
-        }
+        val navController = navHostFragment.navController
 
-//        readRandomBeachConditions.setOnClickListener {
+        bottom_navigation_view.setupWithNavController(navController)
+
+        // todo
+//        viewModel.getNumberOfNotCompletedRequestedItems().observe(this, Observer {
 //
-//            lifecycleScope.launch {
-//                val beachConditions = db.beachConditionsDao().getBeachConditions()
-//
-//                Timber.d("$beachConditions")
+//            if (it == null || it == 0) {
+//                bottom_navigation_view.removeBadge(R.id.requestedItemsFragment)
+//            } else {
+//                bottom_navigation_view.getOrCreateBadge(R.id.requestedItemsFragment).number = it
 //            }
-//        }
+//        })
     }
 }
