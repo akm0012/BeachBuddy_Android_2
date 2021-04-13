@@ -1,4 +1,4 @@
-package com.andrewkingmarshall.beachbuddy.network.interceptors
+package com.andrewkingmarshall.beachbuddy2.network.interceptors
 
 import com.andrewkingmarshall.beachbuddy2.AppSecretHeader
 import okhttp3.Interceptor

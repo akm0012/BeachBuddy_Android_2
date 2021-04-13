@@ -61,7 +61,7 @@ class DashboardFragment : Fragment() {
 
         viewModel.showToast.observe(viewLifecycleOwner, { it.toast(requireContext()) })
 
-        button.setOnClickListener { viewModel.refreshDashboard() }
+        button.setOnClickListener { viewModel.onPullToRefresh() }
     }
 
     private fun setUpLeaderboard() {

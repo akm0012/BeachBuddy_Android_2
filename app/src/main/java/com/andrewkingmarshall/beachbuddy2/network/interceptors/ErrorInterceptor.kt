@@ -1,4 +1,4 @@
-package com.andrewkingmarshall.beachbuddy.network.interceptors
+package com.andrewkingmarshall.beachbuddy2.network.interceptors
 
 import android.content.Context
 import com.andrewkingmarshall.beachbuddy2.R
@@ -18,8 +18,7 @@ class ErrorInterceptor(private val context: Context) : Interceptor {
             chain.proceed(chain.request())
 
         } catch (notConnectedToNetworkException: UnknownHostException) {
-            val noNetworkDetectedException =
-                NetworkException(context.getString(R.string.no_network_detected))
+            val noNetworkDetectedException = NetworkException(context.getString(R.string.no_network_detected))
             Timber.w(noNetworkDetectedException, "UnknownHostException. Check network connection")
             throw noNetworkDetectedException
 
@@ -46,4 +45,4 @@ class ErrorInterceptor(private val context: Context) : Interceptor {
 
 }
 
-class NetworkException(val errorMessage: String, val httpErrorCode: Int = -1) : Throwable(errorMessage)
+class NetworkException(val errorMessage: String, val httpErrorCode: Int = -1) : IOException(errorMessage)

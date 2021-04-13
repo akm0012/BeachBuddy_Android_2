@@ -65,7 +65,7 @@ class DashboardRepository @Inject constructor(
                 deferredWork.awaitAll()
                 Timber.d("Done - Await all process work.")
 
-            } catch (cause: Exception) {
+            } catch (cause: Throwable) {
                 throw DashboardRefreshError(
                     cause.localizedMessage ?: "Unable to update the Dashboard",
                     cause
@@ -85,7 +85,7 @@ class DashboardRepository @Inject constructor(
             Timber.d("Saving Sunset Info...")
             weatherDao.insertSunsetInfo(sunsetInfo)
             Timber.d("Done saving Sunset Info.")
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Timber.w(
                 e,
                 "Unable to process SunsetInfo. Skipping it. ${dashboardDto.weatherDto}"
@@ -102,7 +102,7 @@ class DashboardRepository @Inject constructor(
                 val dailyWeatherInfo =
                     DailyWeatherInfo(it, dashboardDto.weatherDto.daily[it])
                 dailyInfoToSave.add(dailyWeatherInfo)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Timber.w(e, "Unable to process Daily Weather. Skipping Index $it")
             }
         }
@@ -121,7 +121,7 @@ class DashboardRepository @Inject constructor(
                 val hourlyWeatherInfo =
                     HourlyWeatherInfo(it, dashboardDto.weatherDto.hourly[it])
                 hourlyInfoToSave.add(hourlyWeatherInfo)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Timber.w(e, "Unable to process Hourly Weather. Skipping Index $it")
             }
         }
@@ -140,7 +140,7 @@ class DashboardRepository @Inject constructor(
             Timber.d("Saving Current UV Info...")
             weatherDao.insertCurrentUvInfo(uvInfo)
             Timber.d("Done saving Current UV Info.")
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Timber.w(
                 e,
                 "Unable to process UV Info. Skipping it. ${dashboardDto.currentUvDto}"
@@ -157,7 +157,7 @@ class DashboardRepository @Inject constructor(
             Timber.d("Saving Beach Conditions...")
             beachConditionsDao.insertBeachConditions(beachConditions)
             Timber.d("Done saving Beach Conditions.")
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Timber.w(
                 e,
                 "Unable to process Beach Conditions. Skipping it. ${dashboardDto.beachConditions}"
@@ -174,7 +174,7 @@ class DashboardRepository @Inject constructor(
             Timber.d("Saving Current Weather...")
             weatherDao.insertCurrentWeather(currentWeather)
             Timber.d("Done saving Current Weather.")
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Timber.w(
                 e,
                 "Unable to process CurrentWeather. Skipping it. ${dashboardDto.weatherDto}"
@@ -190,7 +190,7 @@ class DashboardRepository @Inject constructor(
             userDto.scores.forEach { scoreDto ->
                 try {
                     scoresToSave.add(Score(scoreDto))
-                } catch (e: Exception) {
+                } catch (e: Throwable) {
                     Timber.w(
                         e,
                         "Unable to process item. Skipping it. UserDto: $userDto and ScoreDto: $scoreDto"
@@ -211,7 +211,7 @@ class DashboardRepository @Inject constructor(
         dashboardDto.users.forEach { userDto ->
             try {
                 usersToSave.add(User(userDto))
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Timber.w(e, "Unable to process item. Skipping it. $userDto")
             }
         }
