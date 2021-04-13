@@ -16,9 +16,12 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertScore(score: Score)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertScores(scores: List<Score>)
+
     @Transaction
     @Query("SELECT * FROM User")
-    fun getUsersWithScores(): Flow<UserWithScores>
+    fun getUsersWithScores(): Flow<List<UserWithScores>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRequestedItem(requestedItem: RequestedItem)

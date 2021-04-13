@@ -25,6 +25,14 @@ class DashboardRepository @Inject constructor(
     private val weatherDao: WeatherDao,
 ) {
 
+    val userWithScoresFlow = userDao.getUsersWithScores()
+    val beachConditionsFlow = beachConditionsDao.getBeachConditions()
+    val currentWeatherFlow = weatherDao.getCurrentWeather()
+    val currentUvInfoFlow = weatherDao.getCurrentUvInfo()
+    val hourlyWeatherFlow = weatherDao.getHourlyWeather()
+    val dailyWeatherFlow = weatherDao.getDailyWeather()
+    val sunsetInfoFlow = weatherDao.getSunsetInfo()
+
     /**
      * This will make a call to get the Dashboard data, and then async process all the data that is returned.
      */
@@ -42,6 +50,7 @@ class DashboardRepository @Inject constructor(
                 val deferredWork = ArrayList<Deferred<Unit>>()
 
                 deferredWork.add(async { processUsers(dashboardDto) })
+                deferredWork.add(async { processUserScores(dashboardDto) })
                 deferredWork.add(async { processCurrentWeatherInfo(dashboardDto) })
                 deferredWork.add(async { processBeachConditions(dashboardDto) })
                 deferredWork.add(async { processUvInfo(dashboardDto) })
@@ -171,6 +180,28 @@ class DashboardRepository @Inject constructor(
                 "Unable to process CurrentWeather. Skipping it. ${dashboardDto.weatherDto}"
             )
         }
+    }
+
+    private suspend fun processUserScores(dashboardDto: DashboardDto) {
+        // Users
+        Timber.v("Starting to process Scores...")
+        val scoresToSave = ArrayList<Score>()
+        dashboardDto.users.forEach { userDto ->
+            userDto.scores.forEach { scoreDto ->
+                try {
+                    scoresToSave.add(Score(scoreDto))
+                } catch (e: Exception) {
+                    Timber.w(
+                        e,
+                        "Unable to process item. Skipping it. UserDto: $userDto and ScoreDto: $scoreDto"
+                    )
+                }
+            }
+        }
+        Timber.v("Done processing Scores.")
+        Timber.d("Saving Scores...")
+        userDao.insertScores(scoresToSave)
+        Timber.d("Done saving Scores.")
     }
 
     private suspend fun processUsers(dashboardDto: DashboardDto) {
