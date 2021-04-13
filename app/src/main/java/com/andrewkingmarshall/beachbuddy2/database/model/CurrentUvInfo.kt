@@ -2,7 +2,7 @@ package com.andrewkingmarshall.beachbuddy2.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.andrewkingmarshall.beachbuddy.network.dtos.CurrentUvDto
+import com.andrewkingmarshall.beachbuddy2.network.dtos.CurrentUvDto
 
 @Entity
 data class CurrentUvInfo(

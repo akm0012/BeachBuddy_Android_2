@@ -3,7 +3,7 @@ package com.andrewkingmarshall.beachbuddy2.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.andrewkingmarshall.beachbuddy.network.dtos.RequestedItemDto
+import com.andrewkingmarshall.beachbuddy2.network.dtos.RequestedItemDto
 import org.joda.time.DateTime
 
 @Entity

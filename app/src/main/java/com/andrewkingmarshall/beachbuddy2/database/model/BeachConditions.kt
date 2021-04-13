@@ -2,9 +2,9 @@ package com.andrewkingmarshall.beachbuddy2.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.andrewkingmarshall.beachbuddy.enums.FlagColor
-import com.andrewkingmarshall.beachbuddy.enums.getFlagColorEnum
-import com.andrewkingmarshall.beachbuddy.network.dtos.BeachConditionsDto
+import com.andrewkingmarshall.beachbuddy2.enums.FlagColor
+import com.andrewkingmarshall.beachbuddy2.enums.getFlagColorEnum
+import com.andrewkingmarshall.beachbuddy2.network.dtos.BeachConditionsDto
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 

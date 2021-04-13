@@ -3,7 +3,7 @@ package com.andrewkingmarshall.beachbuddy2.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.andrewkingmarshall.beachbuddy.network.dtos.ScoreDto
+import com.andrewkingmarshall.beachbuddy2.network.dtos.ScoreDto
 
 @Entity
 data class Score(

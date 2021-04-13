@@ -1,4 +1,4 @@
-package com.andrewkingmarshall.beachbuddy.enums
+package com.andrewkingmarshall.beachbuddy2.enums
 
 enum class BeachConditionItemType {
     CLOUD_COVERAGE_PERCENT,

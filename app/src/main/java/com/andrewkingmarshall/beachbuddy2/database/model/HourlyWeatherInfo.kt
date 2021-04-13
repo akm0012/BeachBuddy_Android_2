@@ -2,7 +2,7 @@ package com.andrewkingmarshall.beachbuddy2.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.andrewkingmarshall.beachbuddy.network.dtos.HourlyWeatherDto
+import com.andrewkingmarshall.beachbuddy2.network.dtos.HourlyWeatherDto
 
 @Entity
 data class HourlyWeatherInfo(

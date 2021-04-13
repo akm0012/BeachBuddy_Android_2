@@ -1,6 +1,6 @@
-package com.andrewkingmarshall.beachbuddy.network.dtos
+package com.andrewkingmarshall.beachbuddy2.network.dtos
 
-import com.andrewkingmarshall.beachbuddy.network.dtos.ScoreDto
+import com.andrewkingmarshall.beachbuddy2.network.dtos.ScoreDto
 
 data class UserDto(
 

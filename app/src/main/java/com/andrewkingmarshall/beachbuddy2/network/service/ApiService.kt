@@ -1,11 +1,11 @@
 package com.andrewkingmarshall.beachbuddy2.network.service
 
-import com.andrewkingmarshall.beachbuddy.network.dtos.DashboardDto
-import com.andrewkingmarshall.beachbuddy.network.dtos.RequestedItemDto
-import com.andrewkingmarshall.beachbuddy.network.requests.AddDeviceRequest
-import com.andrewkingmarshall.beachbuddy.network.requests.AddGameRequest
-import com.andrewkingmarshall.beachbuddy.network.requests.UpdateRequestedItemRequest
-import com.andrewkingmarshall.beachbuddy.network.requests.UpdateScoreRequest
+import com.andrewkingmarshall.beachbuddy2.network.dtos.DashboardDto
+import com.andrewkingmarshall.beachbuddy2.network.dtos.RequestedItemDto
+import com.andrewkingmarshall.beachbuddy2.network.requests.AddDeviceRequest
+import com.andrewkingmarshall.beachbuddy2.network.requests.AddGameRequest
+import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateRequestedItemRequest
+import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateScoreRequest
 import retrofit2.Callback
 import retrofit2.Retrofit
 import javax.inject.Inject

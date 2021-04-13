@@ -1,6 +1,6 @@
 package com.andrewkingmarshall.beachbuddy2.repository
 
-import com.andrewkingmarshall.beachbuddy.network.dtos.DashboardDto
+import com.andrewkingmarshall.beachbuddy2.network.dtos.DashboardDto
 import com.andrewkingmarshall.beachbuddy2.database.dao.BeachConditionsDao
 import com.andrewkingmarshall.beachbuddy2.database.dao.UserDao
 import com.andrewkingmarshall.beachbuddy2.database.dao.WeatherDao
