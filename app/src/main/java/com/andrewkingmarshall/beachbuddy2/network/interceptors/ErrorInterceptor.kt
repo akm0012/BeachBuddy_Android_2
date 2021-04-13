@@ -45,4 +45,6 @@ class ErrorInterceptor(private val context: Context) : Interceptor {
 
 }
 
+// Note: This has to be IOException, otherwise Coroutines will crash:
+//      https://stackoverflow.com/questions/58697459/handle-exceptions-thrown-by-a-custom-okhttp-interceptor-in-kotlin-coroutines
 class NetworkException(val errorMessage: String, val httpErrorCode: Int = -1) : IOException(errorMessage)
