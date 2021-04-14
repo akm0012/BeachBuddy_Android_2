@@ -8,6 +8,8 @@ import com.andrewkingmarshall.beachbuddy2.network.dtos.DashboardDto
 import com.andrewkingmarshall.beachbuddy2.network.service.ApiService
 import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.WeatherDM
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.zip
 import timber.log.Timber
 import javax.inject.Inject
@@ -34,7 +36,6 @@ class DashboardRepository @Inject constructor(
     val hourlyWeatherFlow = weatherDao.getHourlyWeather()
     val dailyWeatherFlow = weatherDao.getDailyWeather()
     val sunsetInfoFlow = weatherDao.getSunsetInfo()
-
 
     val weatherDomainModelFlow =
         currentWeatherFlow.zip(beachConditionsFlow) { currentWeather, beachConditions ->

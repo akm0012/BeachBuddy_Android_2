@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.database.model.User
 import com.andrewkingmarshall.beachbuddy2.extensions.toast
+import com.andrewkingmarshall.beachbuddy2.ui.views.LeaderBoardView
+import com.andrewkingmarshall.beachbuddy2.ui.views.viewmodels.CurrentUvViewModel
 import com.andrewkingmarshall.beachbuddy2.viewmodels.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -58,10 +62,11 @@ class DashboardFragment : Fragment() {
 
         setUpSwipeToRefresh()
 
+        viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
+            Timber.d("WeatherDM: $it")
+        })
 
         viewModel.showToast.observe(viewLifecycleOwner, { it.toast(requireContext()) })
-
-        button.setOnClickListener { viewModel.onPullToRefresh() }
     }
 
     private fun setUpLeaderboard() {
@@ -72,52 +77,51 @@ class DashboardFragment : Fragment() {
                 return@Observer
             }
 
-//            leaderBoardView.setUsers(it, object : LeaderBoardView.InteractionListener {
-//                override fun onSettingsClicked() {
-//                    navController.navigate(R.id.action_dashboardFragment_to_scoreManagementFragment)
-//                }
-//
-//                override fun onUserClicked(user: User) {
-//                    currentUvView.showSafeExposureTimeForSkinType(user.skinType)
-//                }
-//            })
+            leaderBoardView.setUsers(it, object : LeaderBoardView.InteractionListener {
+                override fun onSettingsClicked() {
+                    navController.navigate(R.id.action_dashboardFragment_to_scoreManagementFragment)
+                }
+
+                override fun onUserClicked(user: User) {
+                    currentUvView.showSafeExposureTimeForSkinType(user.skinType)
+                }
+            })
         })
     }
 
     private fun setUpBeachConditions() {
-        viewModel.beachConditions.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
             Timber.i("setUpBeachConditions: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer
             }
 
-
-            // beachConditionsView.setWeather(it)
+            beachConditionsView.setWeather(it)
         })
     }
 
     private fun setUpCurrentWeatherView() {
-        viewModel.currentWeather.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
             Timber.i("setUpCurrentWeatherView: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer
             }
 
-//            currentWeatherView.setWeather(it)
+            currentWeatherView.setWeather(it)
         })
     }
 
     private fun setUpCurrentUvInfo() {
-        viewModel.currentUvInfo.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
             Timber.i("setUpCurrentUvInfo: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer
             }
 
-            // currentUvView.setViewModel(CurrentUvViewModel(it))
+            currentUvView.setViewModel(CurrentUvViewModel(it))
         })
     }
 
@@ -129,7 +133,7 @@ class DashboardFragment : Fragment() {
                 return@Observer
             }
 
-            // hourlyWeatherView.setWeather(it)
+            hourlyWeatherView.setWeather(it)
         })
     }
 
@@ -141,7 +145,7 @@ class DashboardFragment : Fragment() {
                 return@Observer
             }
 
-//            dailyWeatherView.setWeather(it)
+            dailyWeatherView.setWeather(it)
         })
     }
 
@@ -153,28 +157,27 @@ class DashboardFragment : Fragment() {
                 return@Observer
             }
 
-//            sunsetTimerView.setSunsetSunriseTimes(
-//                it.sunrise,
-//                it.sunset,
-//                it.sunriseNextDay,
-//                it.sunsetPrevDay
-//            )
+            sunsetTimerView.setSunsetSunriseTimes(
+                it.sunrise,
+                it.sunset,
+                it.sunriseNextDay,
+                it.sunsetPrevDay
+            )
         })
 
-        viewModel.sunsetViewUpdateTimer.observe(viewLifecycleOwner, Observer {
-            // todo: Update sunset view
+        viewModel.sunsetViewUpdateTimer.observe(viewLifecycleOwner, {
+            sunsetTimerView.updateTimer()
         })
     }
 
     private fun setUpSwipeToRefresh() {
-//        dashboardSwipeRefreshLayout.setColorSchemeColors(
-//            ContextCompat.getColor(requireContext(), R.color.colorPrimary),
-//            ContextCompat.getColor(requireContext(), R.color.colorAccent)
-//        )
-//        dashboardSwipeRefreshLayout.setOnRefreshListener { viewModel.onPullToRefresh() }
-//        viewModel.showLoadingEvent.observe(
-//            viewLifecycleOwner,
-//            Observer { dashboardSwipeRefreshLayout.isRefreshing = it })
+        dashboardSwipeRefreshLayout.setColorSchemeColors(
+            ContextCompat.getColor(requireContext(), R.color.colorPrimary),
+            ContextCompat.getColor(requireContext(), R.color.colorAccent)
+        )
+        dashboardSwipeRefreshLayout.setOnRefreshListener { viewModel.onPullToRefresh() }
+        viewModel.showLoadingEvent.observe(
+            viewLifecycleOwner, { dashboardSwipeRefreshLayout.isRefreshing = it })
     }
 
 }

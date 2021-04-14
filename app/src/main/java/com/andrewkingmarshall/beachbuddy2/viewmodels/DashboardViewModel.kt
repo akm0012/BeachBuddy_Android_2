@@ -9,6 +9,7 @@ import com.andrewkingmarshall.beachbuddy2.ui.views.SunsetTimerView
 import com.andrewkingmarshall.beachbuddy2.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
