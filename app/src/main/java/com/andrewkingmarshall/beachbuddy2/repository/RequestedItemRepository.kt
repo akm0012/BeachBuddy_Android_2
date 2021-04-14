@@ -6,8 +6,7 @@ import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateRequestedItemRe
 import com.andrewkingmarshall.beachbuddy2.network.service.ApiService
 import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.RequestedItemsDM
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -42,6 +41,14 @@ class RequestedItemRepository @Inject constructor(
                 }
             }
             userDao.insertRequestedItems(itemsToSave)
+
+            // Purge all the invalid Items that were deleted else where
+            val invalidItems = userDao.getNotCompletedRequestedItems().first().toMutableList()
+            itemsToSave.forEach {
+                // Remove any valid items that were just pulled down
+                invalidItems.remove(it)
+            }
+            userDao.deleteRequestedItems(invalidItems)
 
         } catch (cause: Exception) {
             Timber.w(cause, "Unable to refresh the requested items.")

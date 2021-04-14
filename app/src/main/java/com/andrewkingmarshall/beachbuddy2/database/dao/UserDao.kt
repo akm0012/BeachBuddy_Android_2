@@ -32,10 +32,13 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRequestedItems(requestedItems: List<RequestedItem>)
 
-    @Query("SELECT * FROM RequestedItem WHERE RequestedItem.isComplete = 0 ORDER BY RequestedItem.createdAtTime DESC")
+    @Delete
+    suspend fun deleteRequestedItems(itemsToDelete: List<RequestedItem>)
+
+    @Query("SELECT * FROM RequestedItem WHERE isComplete = 0 ORDER BY createdAtTime DESC")
     fun getNotCompletedRequestedItems(): Flow<List<RequestedItem>>
 
-    @Query("SELECT * FROM RequestedItem WHERE RequestedItem.isComplete = 1 ORDER BY RequestedItem.completedAtTime DESC")
+    @Query("SELECT * FROM RequestedItem WHERE isComplete = 1 ORDER BY completedAtTime DESC")
     fun getCompletedTodayRequestedItems(): Flow<List<RequestedItem>>
 
 }

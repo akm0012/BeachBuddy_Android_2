@@ -2,13 +2,11 @@ package com.andrewkingmarshall.beachbuddy2
 
 import android.media.MediaPlayer
 import com.andrewkingmarshall.beachbuddy2.repository.FirebaseRepository
+import com.andrewkingmarshall.beachbuddy2.repository.RequestedItemRepository
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,16 +16,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     @Inject
     lateinit var firebaseRepository: FirebaseRepository
 
-//    @Inject
-//    lateinit var requestedItemRepository: RequestedItemRepository
-
-    private val serviceJob = Job()
-    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
-
-    override fun onDestroy() {
-        super.onDestroy()
-        serviceJob.cancel()
-    }
+    @Inject
+    lateinit var requestedItemRepository: RequestedItemRepository
 
     /**
      * Called when message is received.
@@ -88,7 +78,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Timber.d("Refreshed token: $token")
 
-        serviceScope.launch {
+        GlobalScope.launch {
             firebaseRepository.registerFCMToken(token)
         }
     }
@@ -97,9 +87,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      * Handle time allotted to BroadcastReceivers.
      */
     private fun handleNow() {
-//        Timber.d("Refreshing Requested Items.")
-//
-//        requestedItemRepository.refreshRequestedItems()
+        Timber.d("Refreshing Requested Items.")
+        GlobalScope.launch {
+            requestedItemRepository.refreshRequestedItems()
+        }
     }
 
 }
