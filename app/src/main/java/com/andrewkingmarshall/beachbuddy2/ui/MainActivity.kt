@@ -3,6 +3,7 @@ package com.andrewkingmarshall.beachbuddy2.ui
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -34,14 +35,13 @@ class MainActivity : AppCompatActivity() {
 
         bottom_navigation_view.setupWithNavController(navController)
 
-        // todo
-//        viewModel.getNumberOfNotCompletedRequestedItems().observe(this, Observer {
-//
-//            if (it == null || it == 0) {
-//                bottom_navigation_view.removeBadge(R.id.requestedItemsFragment)
-//            } else {
-//                bottom_navigation_view.getOrCreateBadge(R.id.requestedItemsFragment).number = it
-//            }
-//        })
+        viewModel.notCompletedItemCount.observe(this, {
+
+            if (it == null || it == 0) {
+                bottom_navigation_view.removeBadge(R.id.requestedItemsFragment)
+            } else {
+                bottom_navigation_view.getOrCreateBadge(R.id.requestedItemsFragment).number = it
+            }
+        })
     }
 }
