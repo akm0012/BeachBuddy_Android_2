@@ -1,7 +1,5 @@
 package com.andrewkingmarshall.beachbuddy2.network.dtos
 
-import com.andrewkingmarshall.beachbuddy2.network.dtos.ScoreDto
-
 data class UserDto(
 
     val id: String,

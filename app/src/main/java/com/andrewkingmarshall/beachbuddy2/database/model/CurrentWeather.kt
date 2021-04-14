@@ -2,8 +2,6 @@ package com.andrewkingmarshall.beachbuddy2.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.andrewkingmarshall.beachbuddy2.network.dtos.BeachConditionsDto
-import com.andrewkingmarshall.beachbuddy2.network.dtos.CurrentUvDto
 import com.andrewkingmarshall.beachbuddy2.network.dtos.WeatherInfoDto
 
 @Entity

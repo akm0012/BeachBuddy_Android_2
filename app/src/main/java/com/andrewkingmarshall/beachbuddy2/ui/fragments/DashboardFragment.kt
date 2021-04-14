@@ -160,6 +160,10 @@ class DashboardFragment : Fragment() {
 //                it.sunsetPrevDay
 //            )
         })
+
+        viewModel.sunsetViewUpdateTimer.observe(viewLifecycleOwner, Observer {
+            // todo: Update sunset view
+        })
     }
 
     private fun setUpSwipeToRefresh() {

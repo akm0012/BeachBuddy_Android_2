@@ -1,12 +1,14 @@
 package com.andrewkingmarshall.beachbuddy2.repository
 
-import com.andrewkingmarshall.beachbuddy2.network.dtos.DashboardDto
 import com.andrewkingmarshall.beachbuddy2.database.dao.BeachConditionsDao
 import com.andrewkingmarshall.beachbuddy2.database.dao.UserDao
 import com.andrewkingmarshall.beachbuddy2.database.dao.WeatherDao
 import com.andrewkingmarshall.beachbuddy2.database.model.*
+import com.andrewkingmarshall.beachbuddy2.network.dtos.DashboardDto
 import com.andrewkingmarshall.beachbuddy2.network.service.ApiService
+import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.WeatherDM
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.zip
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,6 +34,14 @@ class DashboardRepository @Inject constructor(
     val hourlyWeatherFlow = weatherDao.getHourlyWeather()
     val dailyWeatherFlow = weatherDao.getDailyWeather()
     val sunsetInfoFlow = weatherDao.getSunsetInfo()
+
+
+    val weatherDomainModelFlow =
+        currentWeatherFlow.zip(beachConditionsFlow) { currentWeather, beachConditions ->
+            Pair(currentWeather, beachConditions)
+        }.zip(currentUvInfoFlow) { pair, currentUvInfo ->
+            WeatherDM(pair.first, pair.second, currentUvInfo)
+        }
 
     /**
      * This will make a call to get the Dashboard data, and then async process all the data that is returned.

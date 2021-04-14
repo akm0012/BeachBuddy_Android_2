@@ -6,7 +6,6 @@ import com.andrewkingmarshall.beachbuddy2.network.requests.AddDeviceRequest
 import com.andrewkingmarshall.beachbuddy2.network.requests.AddGameRequest
 import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateRequestedItemRequest
 import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateScoreRequest
-import retrofit2.Callback
 import retrofit2.Retrofit
 import javax.inject.Inject
 

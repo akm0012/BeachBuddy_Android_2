@@ -3,21 +3,13 @@ package com.andrewkingmarshall.beachbuddy2.ui
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.room.Room
 import com.andrewkingmarshall.beachbuddy2.R
-import com.andrewkingmarshall.beachbuddy2.database.AppDatabase
-import com.andrewkingmarshall.beachbuddy2.database.model.BeachConditions
 import com.andrewkingmarshall.beachbuddy2.viewmodels.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

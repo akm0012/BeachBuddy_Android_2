@@ -1,10 +1,10 @@
 package com.andrewkingmarshall.beachbuddy2.inject
 
 import android.content.Context
-import com.andrewkingmarshall.beachbuddy2.network.interceptors.ErrorInterceptor
-import com.andrewkingmarshall.beachbuddy2.network.interceptors.SecretHeaderInterceptor
 import com.andrewkingmarshall.beachbuddy2.BuildConfig
 import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.network.interceptors.ErrorInterceptor
+import com.andrewkingmarshall.beachbuddy2.network.interceptors.SecretHeaderInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,12 +1,11 @@
 package com.andrewkingmarshall.beachbuddy2.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.andrewkingmarshall.beachbuddy2.database.model.*
 import com.andrewkingmarshall.beachbuddy2.repository.DashboardRefreshError
 import com.andrewkingmarshall.beachbuddy2.repository.DashboardRepository
+import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.WeatherDM
+import com.andrewkingmarshall.beachbuddy2.ui.views.SunsetTimerView
 import com.andrewkingmarshall.beachbuddy2.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -14,12 +13,7 @@ import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import timber.log.Timber
-import java.lang.Exception
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
-import kotlin.time.toDuration
 
 private const val AUTO_UPDATE_PRIME_TIME_COOLDOWN_MIN = 15
 private const val AUTO_UPDATE_IDLE_COOLDOWN_MIN = 60
@@ -47,6 +41,9 @@ class DashboardViewModel @Inject constructor(
     val usersWithScores: LiveData<List<UserWithScores>> =
         dashboardRepository.userWithScoresFlow.asLiveData()
 
+    val weatherDomainModel: LiveData<WeatherDM> =
+        dashboardRepository.weatherDomainModelFlow.asLiveData()
+
     val beachConditions: LiveData<BeachConditions> =
         dashboardRepository.beachConditionsFlow.asLiveData()
 
@@ -64,6 +61,16 @@ class DashboardViewModel @Inject constructor(
 
     val sunsetInfo: LiveData<SunsetInfo> =
         dashboardRepository.sunsetInfoFlow.asLiveData()
+
+    /**
+     * This is a simple timer that will emit "true" every X millis
+     */
+    val sunsetViewUpdateTimer = liveData {
+        while (true) {
+            emit(true)
+            delay(SunsetTimerView.TIMER_DELAY)
+        }
+    }
 
     fun onPullToRefresh() {
         lastDashboardRefresh = System.currentTimeMillis()

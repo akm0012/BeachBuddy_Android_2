@@ -1,7 +1,10 @@
 package com.andrewkingmarshall.beachbuddy2.database.dao
 
 import androidx.room.*
-import com.andrewkingmarshall.beachbuddy2.database.model.*
+import com.andrewkingmarshall.beachbuddy2.database.model.RequestedItem
+import com.andrewkingmarshall.beachbuddy2.database.model.Score
+import com.andrewkingmarshall.beachbuddy2.database.model.User
+import com.andrewkingmarshall.beachbuddy2.database.model.UserWithScores
 import kotlinx.coroutines.flow.Flow
 
 @Dao
