@@ -20,6 +20,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # todo: look into how we can run this against min, target, latest sdk
       - name: Run Unit Tests
         run: ./gradlew test
