@@ -6,6 +6,7 @@ import com.andrewkingmarshall.beachbuddy2.network.requests.AddDeviceRequest
 import com.andrewkingmarshall.beachbuddy2.network.requests.AddGameRequest
 import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateRequestedItemRequest
 import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateScoreRequest
+import retrofit2.Response
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -26,7 +27,7 @@ class ApiService @Inject constructor(retrofit: Retrofit) {
         return apiServiceInterface.updateRequestedItem(requestedItemId, request)
     }
 
-    suspend fun addDevice(addDeviceRequest: AddDeviceRequest): Void {
+    suspend fun addDevice(addDeviceRequest: AddDeviceRequest) : Response<Unit> {
         return apiServiceInterface.addDevice(addDeviceRequest)
     }
 
@@ -34,11 +35,11 @@ class ApiService @Inject constructor(retrofit: Retrofit) {
         return apiServiceInterface.getDashboard(lat, lon)
     }
 
-    suspend fun updateScore(scoreId: String, updateScoreRequest: UpdateScoreRequest): Void {
+    suspend fun updateScore(scoreId: String, updateScoreRequest: UpdateScoreRequest): Response<Unit> {
         return apiServiceInterface.updateScore(scoreId, updateScoreRequest)
     }
 
-    suspend fun addGame(addGameRequest: AddGameRequest): Void {
+    suspend fun addGame(addGameRequest: AddGameRequest): Response<Unit> {
         return apiServiceInterface.addGame(addGameRequest)
     }
 }

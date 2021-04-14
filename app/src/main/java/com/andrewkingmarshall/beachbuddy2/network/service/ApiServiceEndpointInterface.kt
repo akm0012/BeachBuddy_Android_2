@@ -6,6 +6,7 @@ import com.andrewkingmarshall.beachbuddy2.network.requests.AddDeviceRequest
 import com.andrewkingmarshall.beachbuddy2.network.requests.AddGameRequest
 import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateRequestedItemRequest
 import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateScoreRequest
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiServiceEndpointInterface {
@@ -20,7 +21,7 @@ interface ApiServiceEndpointInterface {
     ): RequestedItemDto
 
     @POST("api/devices")
-    suspend fun addDevice(@Body addDeviceRequest: AddDeviceRequest): Void
+    suspend fun addDevice(@Body addDeviceRequest: AddDeviceRequest) : Response<Unit>
 
     @GET("api/dashboard")
     suspend fun getDashboard(@Query("lat") lat: Double, @Query("lon") lon: Double): DashboardDto
@@ -29,10 +30,10 @@ interface ApiServiceEndpointInterface {
     suspend fun updateScore(
         @Path("scoreId") scoreId: String,
         @Body updateScoreRequest: UpdateScoreRequest
-    ): Void
+    ): Response<Unit>
 
     @POST("api/addScore")
     suspend fun addGame(
         @Body addGameRequest: AddGameRequest
-    ): Void
+    ): Response<Unit>
 }
