@@ -12,8 +12,6 @@ import org.joda.time.DateTimeZone
 
 class SunsetTimerView : FrameLayout {
 
-//    private var timer = Timer()
-//    private var handler: WeakHandler = WeakHandler()
     private var viewModel: SunsetTimerViewModel? = null
 
     constructor(context: Context) : super(context)
@@ -34,16 +32,6 @@ class SunsetTimerView : FrameLayout {
         updateTimer()
     }
 
-//    fun startTimer() {
-//        timer = Timer()
-//        val myTimerTask = MyTimerTask()
-//        timer.schedule(myTimerTask, TIMER_DELAY, TIMER_DELAY)
-//    }
-//
-//    fun stopTimer() {
-//        timer.cancel()
-//    }
-
     fun updateTimer() {
         val currentTime = DateTime().withZone(DateTimeZone.getDefault()).millis
 
@@ -53,18 +41,6 @@ class SunsetTimerView : FrameLayout {
         arcProgressView.progress = progressInt
         arcProgressView.bottomText = viewModel?.getBottomLabel(currentTime)
     }
-
-//    inner class MyTimerTask : TimerTask() {
-//        override fun run() {
-//            handler.post(MyRunnable())
-//        }
-//    }
-//
-//    inner class MyRunnable : Runnable {
-//        override fun run() {
-//            updateTimer()
-//        }
-//    }
 
     companion object {
         val TIMER_DELAY = 1000L

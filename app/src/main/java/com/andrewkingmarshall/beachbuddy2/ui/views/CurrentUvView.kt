@@ -25,7 +25,6 @@ class CurrentUvView : FrameLayout {
 
         this.viewModel = viewModel
 
-        // Reset the view (todo: check if this works overnight)
         sunView.setCurrentTime(viewModel.getSunViewStartTime())
 
         sunView.apply {
