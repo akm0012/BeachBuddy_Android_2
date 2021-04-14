@@ -12,12 +12,13 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RequestedItemRepository @Inject constructor(
     private val apiService: ApiService,
     private val userDao: UserDao,
 ) {
-
 
     fun getRequestedItemsDomainModel(): Flow<RequestedItemsDM> {
         GlobalScope.launch {

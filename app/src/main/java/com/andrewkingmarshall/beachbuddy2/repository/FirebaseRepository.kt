@@ -6,7 +6,9 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FirebaseRepository @Inject constructor(
     private val apiService: ApiService,
 ) {
