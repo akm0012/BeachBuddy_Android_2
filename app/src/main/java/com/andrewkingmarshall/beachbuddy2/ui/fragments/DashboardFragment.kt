@@ -19,6 +19,7 @@ import com.andrewkingmarshall.beachbuddy2.viewmodels.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import timber.log.Timber
+import java.lang.IllegalStateException
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
@@ -61,10 +62,6 @@ class DashboardFragment : Fragment() {
         setUpSunsetView()
 
         setUpSwipeToRefresh()
-
-        viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
-            Timber.d("WeatherDM: $it")
-        })
 
         viewModel.showToast.observe(viewLifecycleOwner, { it.toast(requireContext()) })
     }

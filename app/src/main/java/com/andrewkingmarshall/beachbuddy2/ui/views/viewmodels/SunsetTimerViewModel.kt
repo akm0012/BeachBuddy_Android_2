@@ -1,5 +1,7 @@
 package com.andrewkingmarshall.beachbuddy2.ui.views.viewmodels
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.internal.common.CrashlyticsCore
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Period
@@ -79,8 +81,7 @@ class SunsetTimerViewModel(
                 Timber.e(error)
 
                 if (!hasErrorBeenReportedOnce) {
-                    // Todo: Log Crashes
-//                    Crashlytics.logException(error)
+                    FirebaseCrashlytics.getInstance().recordException(error)
                     hasErrorBeenReportedOnce = true
                 }
 
