@@ -38,7 +38,10 @@ interface UserDao {
     @Query("SELECT * FROM RequestedItem WHERE isComplete = 0 ORDER BY createdAtTime DESC")
     fun getNotCompletedRequestedItems(): Flow<List<RequestedItem>>
 
-    @Query("SELECT * FROM RequestedItem WHERE isComplete = 1 ORDER BY completedAtTime DESC")
-    fun getCompletedTodayRequestedItems(): Flow<List<RequestedItem>>
+    @Query("SELECT * FROM RequestedItem WHERE isComplete = 1 AND completedAtTime BETWEEN :todayStartOfDay AND :tomorrowStartOfDayMillis ORDER BY completedAtTime DESC")
+    fun getCompletedTodayRequestedItems(
+        todayStartOfDay: Long,
+        tomorrowStartOfDayMillis: Long,
+    ): Flow<List<RequestedItem>>
 
 }

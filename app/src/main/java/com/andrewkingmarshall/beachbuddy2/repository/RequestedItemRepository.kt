@@ -8,6 +8,8 @@ import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.RequestedItemsDM
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,8 +24,17 @@ class RequestedItemRepository @Inject constructor(
             refreshRequestedItems()
         }
 
+        val todayStartOfDay =
+            DateTime(DateTime.now(DateTimeZone.getDefault()))
+                .withTimeAtStartOfDay().millis
+
+        val tomorrowStartOfDay =
+            DateTime(DateTime.now(DateTimeZone.getDefault())).plusDays(1)
+                .withTimeAtStartOfDay().millis
+
+
         return userDao.getNotCompletedRequestedItems()
-            .zip(userDao.getCompletedTodayRequestedItems()) { notCompletedItems, completedItems ->
+            .zip(userDao.getCompletedTodayRequestedItems(todayStartOfDay, tomorrowStartOfDay)) { notCompletedItems, completedItems ->
                 RequestedItemsDM(notCompletedItems, completedItems)
             }
     }
