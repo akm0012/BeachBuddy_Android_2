@@ -7,6 +7,7 @@ import androidx.annotation.ColorRes
 import com.andrewkingmarshall.beachbuddy2.R
 import com.andrewkingmarshall.beachbuddy2.enums.FlagColor.*
 import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.WeatherDM
+import timber.log.Timber
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -23,7 +24,12 @@ class CurrentWeatherViewModel constructor(
         val geocoder = Geocoder(context, Locale.getDefault())
         val addresses: List<Address> =
             geocoder.getFromLocation(currentWeather.latitude, currentWeather.longitude, 1)
-        val locality = addresses[0].locality
+        val locality = if (addresses.isNotEmpty()) {
+            addresses[0].locality
+        } else {
+            Timber.w("Locality was not found!")
+            "Siesta Key"
+        }
 
         return locality
     }

@@ -23,6 +23,7 @@
 
     <dimen name="weather_item_width">100dp</dimen>
     <dimen name="weather_item_height">200dp</dimen>
+    <dimen name="dashboard_leaderboard_width">270dp</dimen>
 
 
 </resources>

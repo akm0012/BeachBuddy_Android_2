@@ -31,6 +31,10 @@ class LeaderBoardView : FrameLayout {
 
     init {
         View.inflate(context, R.layout.compound_view_leader_board, this)
+
+        if (resources.getBoolean(R.bool.isTv)) {
+            settingImageView.visibility = INVISIBLE
+        }
     }
 
     fun setUsers(userList: List<UserWithScores>, listener: InteractionListener? = null) {
