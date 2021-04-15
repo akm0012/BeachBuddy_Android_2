@@ -50,8 +50,8 @@ class DashboardViewModel @Inject constructor(
     val beachConditions: LiveData<BeachConditions?> =
         dashboardRepository.beachConditionsFlow.asLiveData()
 
-//    val currentWeather: LiveData<CurrentWeather> =
-//        dashboardRepository.currentWeatherFlow.asLiveData()
+    val currentWeather: LiveData<CurrentWeather?> =
+        dashboardRepository.currentWeatherFlow.asLiveData()
 
     val currentUvInfo: LiveData<CurrentUvInfo?> =
         dashboardRepository.currentUvInfoFlow.asLiveData()
