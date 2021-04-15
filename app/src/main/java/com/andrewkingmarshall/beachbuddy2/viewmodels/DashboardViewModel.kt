@@ -44,16 +44,16 @@ class DashboardViewModel @Inject constructor(
             .map { usersWithScores -> usersWithScores.sortedByDescending { it.user.totalScore } }
             .asLiveData()
 
-    val weatherDomainModel: LiveData<WeatherDM> =
+    val weatherDomainModel: LiveData<WeatherDM?> =
         dashboardRepository.weatherDomainModelFlow.asLiveData()
 
-    val beachConditions: LiveData<BeachConditions> =
+    val beachConditions: LiveData<BeachConditions?> =
         dashboardRepository.beachConditionsFlow.asLiveData()
 
-    val currentWeather: LiveData<CurrentWeather> =
-        dashboardRepository.currentWeatherFlow.asLiveData()
+//    val currentWeather: LiveData<CurrentWeather> =
+//        dashboardRepository.currentWeatherFlow.asLiveData()
 
-    val currentUvInfo: LiveData<CurrentUvInfo> =
+    val currentUvInfo: LiveData<CurrentUvInfo?> =
         dashboardRepository.currentUvInfoFlow.asLiveData()
 
     val hourlyWeatherInfo: LiveData<List<HourlyWeatherInfo>> =
@@ -62,7 +62,7 @@ class DashboardViewModel @Inject constructor(
     val dailyWeatherInfo: LiveData<List<DailyWeatherInfo>> =
         dashboardRepository.dailyWeatherFlow.asLiveData()
 
-    val sunsetInfo: LiveData<SunsetInfo> =
+    val sunsetInfo: LiveData<SunsetInfo?> =
         dashboardRepository.sunsetInfoFlow.asLiveData()
 
     /**

@@ -10,6 +10,7 @@ import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.WeatherDM
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.zip
 import timber.log.Timber
 import javax.inject.Inject
@@ -41,7 +42,11 @@ class DashboardRepository @Inject constructor(
         currentWeatherFlow.zip(beachConditionsFlow) { currentWeather, beachConditions ->
             Pair(currentWeather, beachConditions)
         }.zip(currentUvInfoFlow) { pair, currentUvInfo ->
-            WeatherDM(pair.first, pair.second, currentUvInfo)
+            if (pair.first == null || pair.second == null || currentUvInfo == null) {
+                null
+            } else {
+                WeatherDM(pair.first!!, pair.second!!, currentUvInfo)
+            }
         }
 
     /**

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface BeachConditionsDao {
 
     @Query("SELECT * FROM BeachConditions WHERE id = 'BeachConditionsPrimaryKey'")
-    fun getBeachConditions(): Flow<BeachConditions>
+    fun getBeachConditions(): Flow<BeachConditions?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBeachConditions(beachConditions: BeachConditions)
