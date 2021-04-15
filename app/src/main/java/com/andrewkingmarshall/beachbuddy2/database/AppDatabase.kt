@@ -18,7 +18,7 @@ import com.andrewkingmarshall.beachbuddy2.database.model.*
         Score::class,
         SunsetInfo::class,
         User::class,
-    ], version = 1
+    ], version = 1, exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun beachConditionsDao(): BeachConditionsDao

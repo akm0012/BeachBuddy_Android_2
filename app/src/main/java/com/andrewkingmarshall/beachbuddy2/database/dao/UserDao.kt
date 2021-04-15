@@ -47,4 +47,9 @@ interface UserDao {
         tomorrowStartOfDayMillis: Long,
     ): Flow<List<RequestedItem>>
 
+    @Query("SELECT * FROM RequestedItem WHERE isComplete = 1 AND completedAtTime < :todayStartOfDay")
+    fun getOldCompletedRequestedItems(
+        todayStartOfDay: Long,
+    ): Flow<List<RequestedItem>>
+
 }

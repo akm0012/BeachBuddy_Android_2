@@ -33,7 +33,6 @@ class RequestedItemRepository @Inject constructor(
             DateTime(DateTime.now(DateTimeZone.getDefault())).plusDays(1)
                 .withTimeAtStartOfDay().millis
 
-
         return userDao.getNotCompletedRequestedItems()
             .zip(userDao.getCompletedTodayRequestedItems(todayStartOfDay, tomorrowStartOfDay)) { notCompletedItems, completedItems ->
                 RequestedItemsDM(notCompletedItems, completedItems)
@@ -83,6 +82,23 @@ class RequestedItemRepository @Inject constructor(
         } catch (cause: Exception) {
             Timber.w(cause, "Unable to mark the item as complete.")
             throw cause
+        }
+    }
+
+    /**
+     * Deletes all Requested Items that were completed before the start of today.
+     */
+    suspend fun deleteAllOldCompletedItems() {
+
+        val todayStartOfDay =
+            DateTime(DateTime.now(DateTimeZone.getDefault()))
+                .withTimeAtStartOfDay().millis
+
+        try {
+            val oldCompletedItems = userDao.getOldCompletedRequestedItems(todayStartOfDay).first()
+            userDao.deleteRequestedItems(oldCompletedItems)
+        } catch (cause: Exception) {
+            Timber.w(cause, "Unable to delete old completed Items.")
         }
     }
 

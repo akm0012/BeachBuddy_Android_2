@@ -4,12 +4,18 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
 import net.danlew.android.joda.JodaTimeAndroid
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltAndroidApp
-class BeachBuddyApplication: Application() {
+class BeachBuddyApplication : Application(), Configuration.Provider {
+
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
@@ -19,6 +25,12 @@ class BeachBuddyApplication: Application() {
         setUpLogging()
 
         setUpPushChannels()
+
+        setUpWorkerManager()
+    }
+
+    private fun setUpWorkerManager() {
+
     }
 
     private fun setUpLogging() {
@@ -41,4 +53,10 @@ class BeachBuddyApplication: Application() {
             notificationManager.createNotificationChannel(mChannel)
         }
     }
+
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+
 }
