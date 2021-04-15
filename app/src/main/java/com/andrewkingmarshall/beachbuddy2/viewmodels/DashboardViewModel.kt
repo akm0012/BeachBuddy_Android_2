@@ -9,6 +9,7 @@ import com.andrewkingmarshall.beachbuddy2.ui.views.SunsetTimerView
 import com.andrewkingmarshall.beachbuddy2.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -39,7 +40,9 @@ class DashboardViewModel @Inject constructor(
     val showLoadingEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     val usersWithScores: LiveData<List<UserWithScores>> =
-        dashboardRepository.userWithScoresFlow.asLiveData()
+        dashboardRepository.userWithScoresFlow
+            .map { usersWithScores -> usersWithScores.sortedByDescending { it.user.totalScore } }
+            .asLiveData()
 
     val weatherDomainModel: LiveData<WeatherDM> =
         dashboardRepository.weatherDomainModelFlow.asLiveData()

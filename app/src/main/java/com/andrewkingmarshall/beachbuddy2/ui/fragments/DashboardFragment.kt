@@ -68,7 +68,6 @@ class DashboardFragment : Fragment() {
 
     private fun setUpLeaderboard() {
         viewModel.usersWithScores.observe(viewLifecycleOwner, Observer {
-            Timber.i("setUpLeaderboard: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer
@@ -88,7 +87,6 @@ class DashboardFragment : Fragment() {
 
     private fun setUpBeachConditions() {
         viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
-            Timber.i("setUpBeachConditions: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer
@@ -100,7 +98,6 @@ class DashboardFragment : Fragment() {
 
     private fun setUpCurrentWeatherView() {
         viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
-            Timber.i("setUpCurrentWeatherView: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer
@@ -112,7 +109,6 @@ class DashboardFragment : Fragment() {
 
     private fun setUpCurrentUvInfo() {
         viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
-            Timber.i("setUpCurrentUvInfo: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer
@@ -124,7 +120,6 @@ class DashboardFragment : Fragment() {
 
     private fun setUpHourlyWeatherView() {
         viewModel.hourlyWeatherInfo.observe(viewLifecycleOwner, Observer {
-            Timber.i("setUpHourlyWeatherView: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer
@@ -136,7 +131,6 @@ class DashboardFragment : Fragment() {
 
     private fun setUpDailyWeatherView() {
         viewModel.dailyWeatherInfo.observe(viewLifecycleOwner, Observer {
-            Timber.i("setUpDailyWeatherView: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer
@@ -148,7 +142,6 @@ class DashboardFragment : Fragment() {
 
     private fun setUpSunsetView() {
         viewModel.sunsetInfo.observe(viewLifecycleOwner, Observer {
-            Timber.i("setUpSunsetView: ${it.toString().subSequence(0, 50)}")
 
             if (it == null) {
                 return@Observer

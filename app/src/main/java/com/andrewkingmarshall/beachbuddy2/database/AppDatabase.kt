@@ -18,7 +18,6 @@ import com.andrewkingmarshall.beachbuddy2.database.model.*
         Score::class,
         SunsetInfo::class,
         User::class,
-        UserScoreCrossRef::class,
     ], version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
