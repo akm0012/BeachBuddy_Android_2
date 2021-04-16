@@ -36,4 +36,7 @@ interface ApiServiceEndpointInterface {
     suspend fun addGame(
         @Body addGameRequest: AddGameRequest
     ): Response<Unit>
+
+    @POST("api/dashboard/refresh")
+    suspend fun refresh(): Response<Unit>
 }

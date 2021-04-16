@@ -39,7 +39,7 @@ class CurrentWeatherViewModel constructor(
     }
 
     fun getIconUrl(): String {
-        return "http://openweathermap.org/img/wn/${currentWeather.iconTemplate}@2x.png"
+        return "https://openweathermap.org/img/wn/${currentWeather.iconTemplate}@2x.png"
     }
 
     fun getFeelsLikeTemp(): String {

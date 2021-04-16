@@ -42,4 +42,8 @@ class ApiService @Inject constructor(retrofit: Retrofit) {
     suspend fun addGame(addGameRequest: AddGameRequest): Response<Unit> {
         return apiServiceInterface.addGame(addGameRequest)
     }
+
+    suspend fun refresh(): Response<Unit> {
+        return apiServiceInterface.refresh()
+    }
 }

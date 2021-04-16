@@ -46,6 +46,14 @@ class DashboardRepository @Inject constructor(
             }
         }
 
+    suspend fun refreshOtherDevices() {
+        try {
+            apiService.refresh()
+        } catch (cause: Exception) {
+            Timber.w(cause, "Unable to ")
+        }
+    }
+
     /**
      * This will make a call to get the Dashboard data, and then async process all the data that is returned.
      */

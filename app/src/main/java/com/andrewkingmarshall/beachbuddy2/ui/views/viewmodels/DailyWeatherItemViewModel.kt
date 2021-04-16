@@ -19,7 +19,7 @@ class DailyWeatherItemViewModel(
     }
 
     fun getIconUrl(): String {
-        return "http://openweathermap.org/img/wn/${dailyWeather.iconTemplate}@2x.png"
+        return "https://openweathermap.org/img/wn/${dailyWeather.iconTemplate}@2x.png"
     }
 
     fun getSummary(): String {

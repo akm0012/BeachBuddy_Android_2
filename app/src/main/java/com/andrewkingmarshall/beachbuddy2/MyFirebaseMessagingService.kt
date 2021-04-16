@@ -1,6 +1,9 @@
 package com.andrewkingmarshall.beachbuddy2
 
 import android.media.MediaPlayer
+import com.andrewkingmarshall.beachbuddy2.enums.NotificationType.*
+import com.andrewkingmarshall.beachbuddy2.enums.toNotificationType
+import com.andrewkingmarshall.beachbuddy2.repository.DashboardRepository
 import com.andrewkingmarshall.beachbuddy2.repository.FirebaseRepository
 import com.andrewkingmarshall.beachbuddy2.repository.RequestedItemRepository
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -18,6 +21,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     @Inject
     lateinit var requestedItemRepository: RequestedItemRepository
+
+    @Inject
+    lateinit var dashboardRepository: DashboardRepository
 
     /**
      * Called when message is received.
@@ -42,8 +48,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         remoteMessage.data.isNotEmpty().let {
             Timber.d("Message data payload: ${remoteMessage.data}")
 
-            // Refresh the Requested Item data
-            handleNow()
+            remoteMessage.data["notificationType"]?.let {
+                Timber.d("notificationType: $it")
+
+                when (it.toNotificationType()) {
+                    RequestedItemAdded,
+                    RequestedItemCompleted,
+                    RequestedItemRemoved -> refreshRequestedItems()
+
+                    DashboardPulledToRefresh,
+                    ScoreUpdated -> refreshDashboardData()
+
+                    Unknown -> Timber.w("Unknown Notification Type")
+                }
+            }
 
             remoteMessage.data["updateOnly"]?.let {
                 Timber.d("updateOnly: $it")
@@ -51,7 +69,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 // Play a Seagull noise
                 if (it == "false") {
                     // Play the Seagull sound
-                    val mPlayer: MediaPlayer = MediaPlayer.create(applicationContext, R.raw.seagulls)
+                    val mPlayer: MediaPlayer =
+                        MediaPlayer.create(applicationContext, R.raw.seagulls)
                     mPlayer.start()
                 }
             }
@@ -86,10 +105,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     /**
      * Handle time allotted to BroadcastReceivers.
      */
-    private fun handleNow() {
+    private fun refreshRequestedItems() {
         Timber.d("Refreshing Requested Items.")
         GlobalScope.launch {
             requestedItemRepository.refreshRequestedItems()
+        }
+    }
+
+    private fun refreshDashboardData() {
+        Timber.d("Refreshing Requested Items.")
+        GlobalScope.launch {
+            dashboardRepository.refreshDashboard()
         }
     }
 

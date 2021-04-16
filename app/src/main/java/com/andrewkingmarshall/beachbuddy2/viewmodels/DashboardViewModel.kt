@@ -78,6 +78,13 @@ class DashboardViewModel @Inject constructor(
     fun onPullToRefresh() {
         lastDashboardRefresh = System.currentTimeMillis()
         refreshDashboardData()
+        viewModelScope.launch {
+            try {
+                dashboardRepository.refreshOtherDevices()
+            } catch (cause: Exception) {
+                Timber.w(cause, "Unable to refresh other devices.")
+            }
+        }
     }
 
     private fun refreshDashboardData() {
