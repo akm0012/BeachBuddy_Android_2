@@ -6,6 +6,7 @@ import com.andrewkingmarshall.beachbuddy2.network.requests.UpdateRequestedItemRe
 import com.andrewkingmarshall.beachbuddy2.network.service.ApiService
 import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.RequestedItemsDM
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -20,7 +21,8 @@ class RequestedItemRepository @Inject constructor(
     private val userDao: UserDao,
 ) {
 
-
+    private val newItemsAddedChannel = Channel<RequestedItem>(Channel.RENDEZVOUS)
+    val newItemsFlow = newItemsAddedChannel.receiveAsFlow()
 
     fun getRequestedItemsDomainModel(): Flow<RequestedItemsDM> {
         GlobalScope.launch {
@@ -36,19 +38,32 @@ class RequestedItemRepository @Inject constructor(
                 .withTimeAtStartOfDay().millis
 
         return userDao.getNotCompletedRequestedItems()
-            .zip(userDao.getCompletedTodayRequestedItems(todayStartOfDay, tomorrowStartOfDay)) { notCompletedItems, completedItems ->
+            .zip(
+                userDao.getCompletedTodayRequestedItems(
+                    todayStartOfDay,
+                    tomorrowStartOfDay
+                )
+            ) { notCompletedItems, completedItems ->
                 RequestedItemsDM(notCompletedItems, completedItems)
             }
     }
 
-    suspend fun refreshRequestedItems() {
+    /**
+     * @param itemIdFromNotification The name of the item added. Only use this when refreshing
+     *                                   items from a Push Notification.
+     */
+    suspend fun refreshRequestedItems(itemIdFromNotification: String? = null) {
         try {
             val itemDtos = apiService.getNotCompletedRequestedItems()
 
             val itemsToSave = ArrayList<RequestedItem>()
             itemDtos.forEach {
                 try {
-                    itemsToSave.add(RequestedItem(it))
+                    val itemToAdd = RequestedItem(it)
+                    itemsToSave.add(itemToAdd)
+                    if (itemToAdd.id == itemIdFromNotification) {
+                        newItemsAddedChannel.send(itemToAdd)
+                    }
                 } catch (e: Exception) {
                     Timber.w(e, "Unable to process item. Skipping it. $it")
                 }

@@ -16,6 +16,7 @@ import com.andrewkingmarshall.beachbuddy2.extensions.toast
 import com.andrewkingmarshall.beachbuddy2.ui.views.LeaderBoardView
 import com.andrewkingmarshall.beachbuddy2.ui.views.viewmodels.CurrentUvViewModel
 import com.andrewkingmarshall.beachbuddy2.viewmodels.DashboardViewModel
+import com.andrewkingmarshall.beachbuddy2.viewmodels.ItemAddedDialogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import timber.log.Timber
@@ -26,12 +27,15 @@ class DashboardFragment : Fragment() {
 
     lateinit var viewModel: DashboardViewModel
 
+    lateinit var itemViewModel: ItemAddedDialogViewModel
+
     lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(DashboardViewModel::class.java)
+        itemViewModel = ViewModelProvider(requireActivity()).get(ItemAddedDialogViewModel::class.java)
 
     }
 
@@ -62,6 +66,10 @@ class DashboardFragment : Fragment() {
         setUpSunsetView()
 
         setUpSwipeToRefresh()
+
+        itemViewModel.showNewItemAddedDialogEvent.observe(viewLifecycleOwner, {
+            navController.navigate(R.id.action_dashboardFragment_to_itemAddedDialogFragment)
+        })
 
         viewModel.dashboardRefreshErrorEvent.observe(viewLifecycleOwner, { it.message?.toast(requireContext()) })
         viewModel.showToast.observe(viewLifecycleOwner, { it.toast(requireContext()) })

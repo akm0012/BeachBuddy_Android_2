@@ -54,7 +54,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 when (it.toNotificationType()) {
                     RequestedItemAdded,
                     RequestedItemCompleted,
-                    RequestedItemRemoved -> refreshRequestedItems()
+                    RequestedItemRemoved -> {
+                        remoteMessage.data["itemId"]?.let { itemId ->
+                            refreshRequestedItems(itemId)
+                        } ?: refreshRequestedItems()
+                    }
 
                     DashboardPulledToRefresh,
                     ScoreUpdated -> refreshDashboardData()
@@ -73,6 +77,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         MediaPlayer.create(applicationContext, R.raw.seagulls)
                     mPlayer.start()
                 }
+            }
+
+            remoteMessage.data["itemId"]?.let {
+                Timber.d("itemId: $it")
             }
 
             remoteMessage.data["name"]?.let {
@@ -105,10 +113,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     /**
      * Handle time allotted to BroadcastReceivers.
      */
-    private fun refreshRequestedItems() {
+    private fun refreshRequestedItems(itemId: String? = null) {
         Timber.d("Refreshing Requested Items.")
         GlobalScope.launch {
-            requestedItemRepository.refreshRequestedItems()
+            requestedItemRepository.refreshRequestedItems(itemId)
         }
     }
 
