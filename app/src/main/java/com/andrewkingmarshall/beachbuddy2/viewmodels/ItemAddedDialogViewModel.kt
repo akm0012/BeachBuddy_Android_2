@@ -21,6 +21,9 @@ class ItemAddedDialogViewModel @Inject constructor(
 
     val restartTimerEvent = SingleLiveEvent<RequestedItem>()
 
+    val titleString = MutableLiveData<String>()
+    val itemsAddedString = MutableLiveData<String>()
+
     private var isDialogVisible = false
 
     init {
@@ -28,11 +31,23 @@ class ItemAddedDialogViewModel @Inject constructor(
             itemRepository.newItemsFlow.collect {
 
                 if (isDialogVisible) {
+                    itemsAddedString.value = "${it.getNameAndQuantity()}\n${itemsAddedString.value}"
+                    setTitle(it, true)
                     restartTimerEvent.call()
                 } else {
+                    itemsAddedString.value = it.getNameAndQuantity()
+                    setTitle(it)
                     showNewItemAddedDialogEvent.call()
                 }
             }
+        }
+    }
+
+    private fun setTitle(it: RequestedItem, forcePlural:Boolean = false) {
+        if (it.count > 1 || forcePlural) {
+            titleString.value = "Items Added to the Beach List!"
+        } else {
+            titleString.value = "Item Added to the Beach List!"
         }
     }
 

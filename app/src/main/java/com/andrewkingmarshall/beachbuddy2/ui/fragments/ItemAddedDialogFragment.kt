@@ -15,8 +15,7 @@ import com.andrewkingmarshall.beachbuddy2.viewmodels.ItemAddedDialogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_dialog_item_added.*
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+const val DIALOG_COOL_DOWN_MILLIS: Long = 30 * 1000 // 30 Seconds
 
 @AndroidEntryPoint
 class ItemAddedDialogFragment : DialogFragment() {
@@ -44,29 +43,43 @@ class ItemAddedDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         itemViewModel.onDialogShown()
 
+        // Listen for title
+        itemViewModel.titleString.observe(viewLifecycleOwner, {title ->
+            itemAddedTextView.text = title
+        })
+
+        // Listen for main text
+        itemViewModel.itemsAddedString.observe(viewLifecycleOwner, { itemsAdded ->
+            itemAddedToListTextView.text = itemsAdded
+        })
+
+
         progressBarAnimation = ObjectAnimator.ofInt(progressBar, "progress", 100).apply {
-            duration = 4000
+            duration = DIALOG_COOL_DOWN_MILLIS
             interpolator = LinearInterpolator()
-
+            doOnEnd { dialog?.dismiss() }
+            start()
         }
 
-        progressBarAnimation.doOnEnd {
-            dialog?.dismiss()
-        }
+        itemViewModel.restartTimerEvent.observe(viewLifecycleOwner, {
 
-        progressBarAnimation.start()
-
-        itemAddedImage.setOnClickListener {
+            // Remove the listeners so the dialog won't close
             progressBarAnimation.removeAllListeners()
 
+            // Restart the progress
             progressBar.progress = 0
+
+            // Add the listener back
             progressBarAnimation.doOnEnd {
                 dialog?.dismiss()
             }
+
             progressBarAnimation.start()
-        }
+        })
     }
 
     override fun onDismiss(dialog: DialogInterface) {

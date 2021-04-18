@@ -47,4 +47,11 @@ data class RequestedItem(
         }
     }
 
+    fun getNameAndQuantity() =
+        if (count > 1) {
+            "($count) $name"
+        } else {
+            name
+        }
+
 }

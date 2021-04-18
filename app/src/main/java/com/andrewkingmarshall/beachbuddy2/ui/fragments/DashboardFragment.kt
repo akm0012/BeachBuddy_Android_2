@@ -84,9 +84,7 @@ class DashboardFragment : Fragment() {
 
             leaderBoardView.setUsers(it, object : LeaderBoardView.InteractionListener {
                 override fun onSettingsClicked() {
-                    // todo: do not merge
-//                    navController.navigate(R.id.action_dashboardFragment_to_scoreManagementFragment)
-                    navController.navigate(R.id.action_dashboardFragment_to_itemAddedDialogFragment)
+                    navController.navigate(R.id.action_dashboardFragment_to_scoreManagementFragment)
                 }
 
                 override fun onUserClicked(user: User) {
