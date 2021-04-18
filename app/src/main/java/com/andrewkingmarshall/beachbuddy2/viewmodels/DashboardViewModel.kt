@@ -39,6 +39,8 @@ class DashboardViewModel @Inject constructor(
     val showToast: SingleLiveEvent<String> = SingleLiveEvent()
     val showLoadingEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
+    val dashboardRefreshErrorEvent = dashboardRepository.errorFlow.asLiveData()
+
     val usersWithScores: LiveData<List<UserWithScores>> =
         dashboardRepository.userWithScoresFlow
             .map { usersWithScores -> usersWithScores.sortedByDescending { it.user.totalScore } }

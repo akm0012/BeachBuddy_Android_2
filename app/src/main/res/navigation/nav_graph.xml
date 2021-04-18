@@ -20,6 +20,9 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_itemAddedDialogFragment"
+            app:destination="@id/itemAddedDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/requestedItemsFragment"
@@ -31,4 +34,9 @@
         android:name="com.andrewkingmarshall.beachbuddy2.ui.fragments.ScoreManagementFragment"
         android:label="fragment_score_management"
         tools:layout="@layout/fragment_score_management" />
+    <dialog
+        android:id="@+id/itemAddedDialogFragment"
+        android:name="com.andrewkingmarshall.beachbuddy2.ui.fragments.ItemAddedDialogFragment"
+        android:label="fragment_item_added_dialog"
+        tools:layout="@layout/fragment_item_added_dialog" />
 </navigation>

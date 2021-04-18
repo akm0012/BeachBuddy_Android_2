@@ -63,6 +63,7 @@ class DashboardFragment : Fragment() {
 
         setUpSwipeToRefresh()
 
+        viewModel.dashboardRefreshErrorEvent.observe(viewLifecycleOwner, { it.message?.toast(requireContext()) })
         viewModel.showToast.observe(viewLifecycleOwner, { it.toast(requireContext()) })
     }
 
@@ -75,7 +76,9 @@ class DashboardFragment : Fragment() {
 
             leaderBoardView.setUsers(it, object : LeaderBoardView.InteractionListener {
                 override fun onSettingsClicked() {
-                    navController.navigate(R.id.action_dashboardFragment_to_scoreManagementFragment)
+                    // todo: do not merge
+//                    navController.navigate(R.id.action_dashboardFragment_to_scoreManagementFragment)
+                    navController.navigate(R.id.action_dashboardFragment_to_itemAddedDialogFragment)
                 }
 
                 override fun onUserClicked(user: User) {

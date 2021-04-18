@@ -8,6 +8,8 @@ import com.andrewkingmarshall.beachbuddy2.network.dtos.DashboardDto
 import com.andrewkingmarshall.beachbuddy2.network.service.ApiService
 import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.WeatherDM
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.zip
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,6 +47,9 @@ class DashboardRepository @Inject constructor(
                 WeatherDM(pair.first!!, pair.second!!, currentUvInfo)
             }
         }
+
+    private val errorChannel = Channel<DashboardRefreshError>(Channel.RENDEZVOUS)
+    val errorFlow = errorChannel.receiveAsFlow()
 
     suspend fun refreshOtherDevices() {
         try {
@@ -87,10 +92,7 @@ class DashboardRepository @Inject constructor(
                 Timber.d("Done - Await all process work.")
 
             } catch (cause: Throwable) {
-                throw DashboardRefreshError(
-                    cause.localizedMessage ?: "Unable to update the Dashboard",
-                    cause
-                )
+                sendErrorToChannel("Unable to update the Dashboard", cause)
             }
         }
 
@@ -111,6 +113,7 @@ class DashboardRepository @Inject constructor(
                 e,
                 "Unable to process SunsetInfo. Skipping it. ${dashboardDto.weatherDto}"
             )
+            sendErrorToChannel("Unable to update the Sunset Info", e)
         }
     }
 
@@ -125,6 +128,7 @@ class DashboardRepository @Inject constructor(
                 dailyInfoToSave.add(dailyWeatherInfo)
             } catch (e: Throwable) {
                 Timber.w(e, "Unable to process Daily Weather. Skipping Index $it")
+                sendErrorToChannel("Unable to process Daily Weather", e)
             }
         }
         Timber.v("Done processing Daily Weather.")
@@ -144,6 +148,7 @@ class DashboardRepository @Inject constructor(
                 hourlyInfoToSave.add(hourlyWeatherInfo)
             } catch (e: Throwable) {
                 Timber.w(e, "Unable to process Hourly Weather. Skipping Index $it")
+                sendErrorToChannel("Unable to process Hourly Weather", e)
             }
         }
         Timber.v("Done processing Hourly Weather.")
@@ -166,6 +171,7 @@ class DashboardRepository @Inject constructor(
                 e,
                 "Unable to process UV Info. Skipping it. ${dashboardDto.currentUvDto}"
             )
+            sendErrorToChannel("Unable to process UV Info", e)
         }
     }
 
@@ -183,6 +189,7 @@ class DashboardRepository @Inject constructor(
                 e,
                 "Unable to process Beach Conditions. Skipping it. ${dashboardDto.beachConditions}"
             )
+            sendErrorToChannel("Unable to process Beach Conditions", e)
         }
     }
 
@@ -200,6 +207,7 @@ class DashboardRepository @Inject constructor(
                 e,
                 "Unable to process CurrentWeather. Skipping it. ${dashboardDto.weatherDto}"
             )
+            sendErrorToChannel("Unable to process Current Weather", e)
         }
     }
 
@@ -216,6 +224,7 @@ class DashboardRepository @Inject constructor(
                         e,
                         "Unable to process item. Skipping it. UserDto: $userDto and ScoreDto: $scoreDto"
                     )
+                    sendErrorToChannel("Unable to process User Score", e)
                 }
             }
         }
@@ -234,6 +243,7 @@ class DashboardRepository @Inject constructor(
                 usersToSave.add(User(userDto))
             } catch (e: Throwable) {
                 Timber.w(e, "Unable to process item. Skipping it. $userDto")
+                sendErrorToChannel("Unable to process User", e)
             }
         }
         Timber.v("Done processing Users.")
@@ -242,6 +252,13 @@ class DashboardRepository @Inject constructor(
         Timber.d("Done saving Users.")
     }
 
+    private suspend fun sendErrorToChannel(message: String, cause: Throwable?) {
+        val errorMessage = cause?.let { "${cause.localizedMessage}: $message" } ?: message
+
+        Timber.w(cause)
+
+        errorChannel.send(DashboardRefreshError(errorMessage, cause))
+    }
 }
 
 class DashboardRefreshError(message: String, cause: Throwable?) : Throwable(message, cause)
