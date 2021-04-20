@@ -15,7 +15,7 @@ import com.andrewkingmarshall.beachbuddy2.viewmodels.ItemAddedDialogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_dialog_item_added.*
 
-const val DIALOG_COOL_DOWN_MILLIS: Long = 30 * 1000 // 30 Seconds
+const val DIALOG_COOL_DOWN_MILLIS: Long = 10 * 60 * 1000 // 10 min
 
 @AndroidEntryPoint
 class ItemAddedDialogFragment : DialogFragment() {

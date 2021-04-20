@@ -9,16 +9,16 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
+        style="@style/DashboardTileTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:cardBackgroundColor="@color/white">
+        android:layout_margin="5dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dailyWeatherRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            tools:listitem="@layout/container_daily_weather_item" />
 
     </androidx.cardview.widget.CardView>
 

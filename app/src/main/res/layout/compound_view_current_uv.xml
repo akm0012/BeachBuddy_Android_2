@@ -11,24 +11,22 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
+        style="@style/DashboardTileTheme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        app:cardBackgroundColor="@color/white">
+        android:layout_margin="5dp">
 
         <com.openweather.sunviewlibrary.SunView
             android:id="@+id/sunView"
+            style="@style/UvIndexViewTheme"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            app:arcColor="@color/colorPrimaryDark"
+            android:background="@color/uv_index_view_background"
             app:arcDashHeight="1px"
             app:arcOffsetAngle="20"
-            app:arcSolidColor="@color/colorPrimary"
             app:bottomLineHeight="0dp"
-            app:startTime="12:00"
             app:currentTime="12:00"
-            app:sunColor="@color/sun_orange"
+            app:startTime="12:00"
             app:timeTextSize="0sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -9,10 +9,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
+        style="@style/DashboardTileTheme"
         android:layout_width="@dimen/dashboard_leaderboard_width"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:cardBackgroundColor="@color/white">
+        android:layout_margin="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,6 +32,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:id="@+id/darModeToggleImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/transparent_gray_ripple_button"
+                android:padding="10dp"
+                android:src="@drawable/ic_dark_mode"
+                app:layout_constraintBottom_toBottomOf="@id/titleTextView"
+                app:layout_constraintEnd_toStartOf="@id/settingImageView"
+                app:layout_constraintTop_toTopOf="@id/titleTextView"
+                app:tint="@color/dashboard_text_dark" />
+
+            <ImageView
                 android:id="@+id/settingImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,10 +51,10 @@
                 android:background="@drawable/transparent_gray_ripple_button"
                 android:padding="10dp"
                 android:src="@drawable/ic_settings_24dp"
-                app:tint="@color/dashboard_text_dark"
                 app:layout_constraintBottom_toBottomOf="@id/titleTextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/titleTextView" />
+                app:layout_constraintTop_toTopOf="@id/titleTextView"
+                app:tint="@color/dashboard_text_dark" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/leaderBoardRecyclerView"

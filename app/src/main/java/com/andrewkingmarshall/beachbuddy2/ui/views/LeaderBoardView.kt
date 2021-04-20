@@ -24,9 +24,11 @@ class LeaderBoardView : FrameLayout {
     private var adapter: LeaderBoardFlexibleAdapter? = null
 
     interface InteractionListener {
-        fun onSettingsClicked();
+        fun onSettingsClicked()
 
-        fun onUserClicked(user: User);
+        fun onDarkModeToggleClicked()
+
+        fun onUserClicked(user: User)
     }
 
     init {
@@ -41,6 +43,7 @@ class LeaderBoardView : FrameLayout {
 
         if (listener != null) {
             settingImageView.setOnClickListener { listener.onSettingsClicked() }
+            darModeToggleImageView.setOnClickListener { listener.onDarkModeToggleClicked() }
         }
 
         val flexibleItemList = ArrayList<IFlexible<*>>()

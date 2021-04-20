@@ -21,4 +21,23 @@
         <item name="android:layout_height">1px</item>
         <item name="android:background">@color/defaultDivider</item>
     </style>
+
+    <style name="DashboardTheme">
+        <item name="background">@color/off_white</item>
+    </style>
+
+    <style name="DashboardTileTheme">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="background">@color/white</item>
+    </style>
+
+    <style name="UvIndexViewTheme">
+        <item name="background">@color/white</item>
+        <item name="sunColor">@color/sun_orange</item>
+        <item name="arcSolidColor">@color/purple_500</item>
+        <item name="arcColor">@color/purple_500</item>
+
+    </style>
+
+
 </resources>

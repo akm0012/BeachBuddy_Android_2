@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="dashboard_text_dark">@color/white</color>
+    <color name="dashboard_text">@color/white_gray</color>
+
+    <!--  Flag Colors  -->
+    <color name="flag_green">#159133</color>
+    <color name="flag_yellow">#FCF119</color>
+    <color name="flag_red">#DF2F08</color>
+    <color name="flag_purple">#633396</color>
+
+    <color name="sun_orange">#F87748</color>
+
+    <color name="uv_low">#558B2F</color>
+    <color name="uv_moderate">#F9A825</color>
+    <color name="uv_high">#EF6C00</color>
+    <color name="uv_very_high">#B71C1C</color>
+    <color name="uv_extreme">#6A1B9A</color>
+
+    <!--  Note: Themes are not working on this view.  -->
+    <color name="uv_index_view_background">@color/space_gray</color>
+</resources>

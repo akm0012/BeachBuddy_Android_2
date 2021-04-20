@@ -48,7 +48,8 @@ class BeachConditionFlexibleItem(
     ) {
 
         holder?.beachConditionItemView?.height = desiredHeight
-        holder?.beachConditionItemView?.setViewModel(BeachConditionItemViewModel(itemType, currentWeather))
+        holder?.beachConditionItemView?.
+        setViewModel(BeachConditionItemViewModel(itemType, currentWeather))
 
         // Fixme: Assuming Updated at is always the last item. Prob a better way to check this
         if (itemType == BeachConditionItemType.TIME_UPDATED) {

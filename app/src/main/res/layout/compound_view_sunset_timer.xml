@@ -9,10 +9,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
+        style="@style/DashboardTileTheme"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_margin="5dp"
-        app:cardBackgroundColor="@color/white">
+        android:layout_margin="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,7 +26,6 @@
                 app:arc_bottom_text="Loading..."
                 app:arc_finished_color="@color/colorAccent"
                 app:arc_max="100"
-                tools:arc_progress="50"
                 app:arc_stroke_width="8dp"
                 app:arc_suffix_text=" "
                 app:arc_text_color="@color/dashboard_text"
@@ -35,20 +34,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:arc_progress="50" />
 
             <TextView
                 android:id="@+id/sunsetCountDownTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/dashboard_large_text_size"
-                android:textColor="@color/dashboard_text_dark"
-                app:layout_constraintBottom_toTopOf="@id/sunsetTimeTextView"
-                app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintEnd_toEndOf="@id/arcProgressView"
                 android:layout_marginBottom="5dp"
+                android:textColor="@color/dashboard_text_dark"
+                android:textSize="@dimen/dashboard_large_text_size"
+                app:layout_constraintBottom_toTopOf="@id/sunsetTimeTextView"
+                app:layout_constraintEnd_toEndOf="@id/arcProgressView"
                 app:layout_constraintStart_toStartOf="@id/arcProgressView"
                 app:layout_constraintTop_toTopOf="@id/arcProgressView"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="16h 25m" />
 
             <TextView

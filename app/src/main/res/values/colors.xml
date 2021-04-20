@@ -77,4 +77,11 @@
     <color name="uv_high">#EF6C00</color>
     <color name="uv_very_high">#B71C1C</color>
     <color name="uv_extreme">#6A1B9A</color>
+
+    <!--  Dark Mode colors   -->
+    <color name="space_gray">#2D2C2D</color>
+
+    <!--  Note: Themes are not working on this view.  -->
+    <color name="uv_index_view_background">@color/white</color>
+
 </resources>

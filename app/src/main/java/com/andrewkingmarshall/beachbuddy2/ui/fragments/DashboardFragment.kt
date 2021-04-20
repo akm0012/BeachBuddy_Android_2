@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -35,7 +36,8 @@ class DashboardFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(DashboardViewModel::class.java)
-        itemViewModel = ViewModelProvider(requireActivity()).get(ItemAddedDialogViewModel::class.java)
+        itemViewModel =
+            ViewModelProvider(requireActivity()).get(ItemAddedDialogViewModel::class.java)
 
     }
 
@@ -71,7 +73,9 @@ class DashboardFragment : Fragment() {
             navController.navigate(R.id.action_dashboardFragment_to_itemAddedDialogFragment)
         })
 
-        viewModel.dashboardRefreshErrorEvent.observe(viewLifecycleOwner, { it.message?.toast(requireContext()) })
+        viewModel.dashboardRefreshErrorEvent.observe(
+            viewLifecycleOwner,
+            { it.message?.toast(requireContext()) })
         viewModel.showToast.observe(viewLifecycleOwner, { it.toast(requireContext()) })
     }
 
@@ -85,6 +89,30 @@ class DashboardFragment : Fragment() {
             leaderBoardView.setUsers(it, object : LeaderBoardView.InteractionListener {
                 override fun onSettingsClicked() {
                     navController.navigate(R.id.action_dashboardFragment_to_scoreManagementFragment)
+                }
+
+                override fun onDarkModeToggleClicked() {
+
+                    when (AppCompatDelegate.getDefaultNightMode()) {
+
+                        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
+                        AppCompatDelegate.MODE_NIGHT_NO,
+                        AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                            "Dark Mode On".toast(requireContext())
+                        }
+
+                        AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY,
+                        AppCompatDelegate.MODE_NIGHT_YES -> {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                            "Dark Mode Off".toast(requireContext())
+                        }
+
+                        else -> {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                            "Dark Mode Off".toast(requireContext())
+                        }
+                    }
                 }
 
                 override fun onUserClicked(user: User) {
