@@ -48,4 +48,9 @@ class CurrentUvView : FrameLayout {
         safeExposureTitle.visibility = View.VISIBLE
         safeExposureTimeTextView.visibility = View.VISIBLE
     }
+
+    fun clearSafeExposureTime() {
+        safeExposureTitle.visibility = View.GONE
+        safeExposureTimeTextView.visibility = View.GONE
+    }
 }

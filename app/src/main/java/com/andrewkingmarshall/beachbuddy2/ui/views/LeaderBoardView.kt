@@ -35,7 +35,7 @@ class LeaderBoardView : FrameLayout {
         View.inflate(context, R.layout.compound_view_leader_board, this)
 
         if (resources.getBoolean(R.bool.isTv)) {
-            settingImageView.visibility = INVISIBLE
+            settingImageView.visibility = GONE
         }
     }
 

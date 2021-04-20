@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.andrewkingmarshall.beachbuddy2.R
@@ -20,8 +21,14 @@ import com.andrewkingmarshall.beachbuddy2.viewmodels.DashboardViewModel
 import com.andrewkingmarshall.beachbuddy2.viewmodels.ItemAddedDialogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.IllegalStateException
+
+const val TIME_TO_SHOW_TIME_TO_BURN_MS: Long = 5 * 1000 // 5 sec
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
@@ -31,6 +38,8 @@ class DashboardFragment : Fragment() {
     lateinit var itemViewModel: ItemAddedDialogViewModel
 
     lateinit var navController: NavController
+
+    private var showSkinTypeJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,11 +97,7 @@ class DashboardFragment : Fragment() {
 
             leaderBoardView.setUsers(it, object : LeaderBoardView.InteractionListener {
                 override fun onSettingsClicked() {
-
-                    // todo: do not merge
-                    navController.navigate(R.id.action_dashboardFragment_to_itemAddedDialogFragment)
-
-//                    navController.navigate(R.id.action_dashboardFragment_to_scoreManagementFragment)
+                    navController.navigate(R.id.action_dashboardFragment_to_scoreManagementFragment)
                 }
 
                 override fun onDarkModeToggleClicked() {
@@ -120,7 +125,12 @@ class DashboardFragment : Fragment() {
                 }
 
                 override fun onUserClicked(user: User) {
-                    currentUvView.showSafeExposureTimeForSkinType(user.skinType)
+                    showSkinTypeJob?.cancel()
+                    showSkinTypeJob = lifecycleScope.launch {
+                        currentUvView.showSafeExposureTimeForSkinType(user.skinType)
+                        delay(TIME_TO_SHOW_TIME_TO_BURN_MS)
+                        currentUvView.clearSafeExposureTime()
+                    }
                 }
             })
         })
