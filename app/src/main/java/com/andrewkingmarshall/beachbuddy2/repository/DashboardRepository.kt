@@ -62,7 +62,6 @@ class DashboardRepository @Inject constructor(
     /**
      * This will make a call to get the Dashboard data, and then async process all the data that is returned.
      */
-    // Todo: Add a Flow of Errors (maybe channel) that I can emit to and listen for in UI (if listening)
     suspend fun refreshDashboard() {
         Timber.i("Starting to refresh dashboard data...")
 
