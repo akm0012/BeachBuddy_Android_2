@@ -46,4 +46,8 @@ class ApiService @Inject constructor(retrofit: Retrofit) {
     suspend fun refresh(): Response<Unit> {
         return apiServiceInterface.refresh()
     }
+
+    suspend fun setSunScreenReminder(userId: String): Response<Unit> {
+        return apiServiceInterface.setSunScreenReminder(userId)
+    }
 }

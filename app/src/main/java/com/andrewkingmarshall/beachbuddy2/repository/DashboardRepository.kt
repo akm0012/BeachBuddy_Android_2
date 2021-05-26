@@ -55,7 +55,16 @@ class DashboardRepository @Inject constructor(
         try {
             apiService.refresh()
         } catch (cause: Exception) {
-            Timber.w(cause, "Unable to ")
+            Timber.w(cause, "Unable to refresh other devices.")
+        }
+    }
+
+    suspend fun setSunScreenReminder(user: User) {
+        try {
+            apiService.setSunScreenReminder(user.userId)
+        } catch (cause: Exception) {
+            Timber.w(cause)
+            sendErrorToChannel("Unable to set Sunscreen Reminder", cause)
         }
     }
 

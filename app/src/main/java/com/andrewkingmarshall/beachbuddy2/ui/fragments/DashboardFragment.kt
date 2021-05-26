@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.afollestad.materialdialogs.MaterialDialog
 import com.andrewkingmarshall.beachbuddy2.R
 import com.andrewkingmarshall.beachbuddy2.database.model.User
 import com.andrewkingmarshall.beachbuddy2.extensions.toast
@@ -128,6 +129,19 @@ class DashboardFragment : Fragment() {
                     showSkinTypeJob?.cancel()
                     showSkinTypeJob = lifecycleScope.launch {
                         currentUvView.showSafeExposureTimeForSkinType(user.skinType)
+
+                        val safeExposureTime = currentUvView.getSafeExposureTimeForSkinType(user.skinType)
+
+                        MaterialDialog(requireContext()).show {
+                            title(text = "${user.firstName}'s Sun Profile")
+                            message(
+                                text = "Safe Exposure Time: $safeExposureTime"
+                            )
+                            positiveButton(text = "Set Sunscreen Reminder", click = {
+                                viewModel.onSetSunscreenReminderForUser(user)
+                            })
+                        }
+
                         delay(TIME_TO_SHOW_TIME_TO_BURN_MS)
                         currentUvView.clearSafeExposureTime()
                     }

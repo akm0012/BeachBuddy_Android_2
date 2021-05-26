@@ -21,7 +21,7 @@ interface ApiServiceEndpointInterface {
     ): RequestedItemDto
 
     @POST("api/devices")
-    suspend fun addDevice(@Body addDeviceRequest: AddDeviceRequest) : Response<Unit>
+    suspend fun addDevice(@Body addDeviceRequest: AddDeviceRequest): Response<Unit>
 
     @GET("api/dashboard")
     suspend fun getDashboard(@Query("lat") lat: Double, @Query("lon") lon: Double): DashboardDto
@@ -39,4 +39,9 @@ interface ApiServiceEndpointInterface {
 
     @POST("api/dashboard/refresh")
     suspend fun refresh(): Response<Unit>
+
+    @POST("api/sunscreenReminder/sunscreenApplied/{userId}")
+    suspend fun setSunScreenReminder(
+        @Path("userId") userId: String,
+    ): Response<Unit>
 }

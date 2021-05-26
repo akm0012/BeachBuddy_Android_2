@@ -42,6 +42,10 @@ class CurrentUvView : FrameLayout {
         uvIndexTextView.text = viewModel.getUvIndex()
     }
 
+    fun getSafeExposureTimeForSkinType(skinType: Int?): String {
+        return viewModel?.getTimeToBurn(skinType) ?: "N/A"
+    }
+
     fun showSafeExposureTimeForSkinType(skinType: Int?) {
         safeExposureTimeTextView.text = viewModel?.getTimeToBurn(skinType)
 

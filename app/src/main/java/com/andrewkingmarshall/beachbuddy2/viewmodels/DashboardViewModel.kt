@@ -77,6 +77,17 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    fun onSetSunscreenReminderForUser(user: User) {
+        viewModelScope.launch {
+            try {
+                dashboardRepository.setSunScreenReminder(user)
+                showToast.value = "Sunscreen Reminder Set"
+            } catch (cause: Exception) {
+                Timber.w(cause)
+            }
+        }
+    }
+
     fun onPullToRefresh() {
         lastDashboardRefresh = System.currentTimeMillis()
         refreshDashboardData()
