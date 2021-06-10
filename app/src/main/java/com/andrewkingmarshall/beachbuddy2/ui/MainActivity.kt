@@ -3,23 +3,25 @@ package com.andrewkingmarshall.beachbuddy2.ui
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.databinding.ActivityMainBinding
 import com.andrewkingmarshall.beachbuddy2.viewmodels.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: MainActivityViewModel
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
@@ -33,14 +35,14 @@ class MainActivity : AppCompatActivity() {
 
         val navController = navHostFragment.navController
 
-        bottom_navigation_view.setupWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController)
 
         viewModel.notCompletedItemCount.observe(this, {
 
             if (it == null || it == 0) {
-                bottom_navigation_view.removeBadge(R.id.requestedItemsFragment)
+                binding.bottomNavigationView.removeBadge(R.id.requestedItemsFragment)
             } else {
-                bottom_navigation_view.getOrCreateBadge(R.id.requestedItemsFragment).number = it
+                binding.bottomNavigationView.getOrCreateBadge(R.id.requestedItemsFragment).number = it
             }
         })
     }

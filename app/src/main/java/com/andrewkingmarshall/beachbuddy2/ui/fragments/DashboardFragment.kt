@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,16 +22,13 @@ import com.andrewkingmarshall.beachbuddy2.viewmodels.ItemAddedDialogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.lang.IllegalStateException
 
 const val TIME_TO_SHOW_TIME_TO_BURN_MS: Long = 5 * 1000 // 5 sec
 
 @AndroidEntryPoint
-class DashboardFragment : Fragment() {
+class DashboardFragment : BaseFragment() {
 
     lateinit var viewModel: DashboardViewModel
 

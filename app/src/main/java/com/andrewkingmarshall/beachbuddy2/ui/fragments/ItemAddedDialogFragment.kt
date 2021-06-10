@@ -2,28 +2,25 @@ package com.andrewkingmarshall.beachbuddy2.ui.fragments
 
 import android.animation.ObjectAnimator
 import android.content.DialogInterface
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.animation.LinearInterpolator
 import androidx.core.animation.doOnEnd
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.databinding.FragmentDialogItemAddedBinding
 import com.andrewkingmarshall.beachbuddy2.viewmodels.ItemAddedDialogViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_dialog_item_added.*
 
 const val DIALOG_COOL_DOWN_MILLIS: Long = 10 * 60 * 1000 // 10 min
 
 @AndroidEntryPoint
-class ItemAddedDialogFragment : DialogFragment() {
+class ItemAddedDialogFragment : BaseDialogFragment() {
 
     lateinit var itemViewModel: ItemAddedDialogViewModel
+
+    private val binding get() = _binding!! as FragmentDialogItemAddedBinding
 
     var progressBarAnimation = ObjectAnimator()
 
@@ -39,8 +36,9 @@ class ItemAddedDialogFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_dialog_item_added, container)
+    ): View {
+        _binding = FragmentDialogItemAddedBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,16 +48,16 @@ class ItemAddedDialogFragment : DialogFragment() {
 
         // Listen for title
         itemViewModel.titleString.observe(viewLifecycleOwner, {title ->
-            itemAddedTextView.text = title
+            binding.itemAddedTextView.text = title
         })
 
         // Listen for main text
         itemViewModel.itemsAddedString.observe(viewLifecycleOwner, { itemsAdded ->
-            itemAddedToListTextView.text = itemsAdded
+            binding.itemAddedToListTextView.text = itemsAdded
         })
 
 
-        progressBarAnimation = ObjectAnimator.ofInt(progressBar, "progress", 100).apply {
+        progressBarAnimation = ObjectAnimator.ofInt(binding.progressBar, "progress", 100).apply {
             duration = DIALOG_COOL_DOWN_MILLIS
             interpolator = LinearInterpolator()
             doOnEnd { dialog?.dismiss() }
@@ -72,7 +70,7 @@ class ItemAddedDialogFragment : DialogFragment() {
             progressBarAnimation.removeAllListeners()
 
             // Restart the progress
-            progressBar.progress = 0
+            binding.progressBar.progress = 0
 
             // Add the listener back
             progressBarAnimation.doOnEnd {

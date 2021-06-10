@@ -5,8 +5,6 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -21,14 +19,13 @@ import com.andrewkingmarshall.beachbuddy2.extensions.toast
 import com.andrewkingmarshall.beachbuddy2.ui.ItemOffsetDecoration
 import com.andrewkingmarshall.beachbuddy2.ui.flexible.ManageScoreFlexibleAdapter
 import com.andrewkingmarshall.beachbuddy2.ui.flexible.ManageUserScoreFlexibleItem
-import com.andrewkingmarshall.beachbuddy2.viewmodels.RequestedItemViewModel
 import com.andrewkingmarshall.beachbuddy2.viewmodels.ScoreManagementViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_score_management.*
 
 @AndroidEntryPoint
-class ScoreManagementFragment : Fragment() {
+class ScoreManagementFragment : BaseFragment() {
 
     lateinit var viewModel: ScoreManagementViewModel
 
