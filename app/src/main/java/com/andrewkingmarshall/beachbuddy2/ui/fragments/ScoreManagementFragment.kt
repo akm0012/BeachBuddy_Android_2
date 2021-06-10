@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.input.input
 import com.andrewkingmarshall.beachbuddy2.R
 import com.andrewkingmarshall.beachbuddy2.database.model.Score
 import com.andrewkingmarshall.beachbuddy2.database.model.UserWithScores
+import com.andrewkingmarshall.beachbuddy2.databinding.FragmentScoreManagementBinding
 import com.andrewkingmarshall.beachbuddy2.extensions.toast
 import com.andrewkingmarshall.beachbuddy2.ui.ItemOffsetDecoration
 import com.andrewkingmarshall.beachbuddy2.ui.flexible.ManageScoreFlexibleAdapter
@@ -22,10 +23,11 @@ import com.andrewkingmarshall.beachbuddy2.ui.flexible.ManageUserScoreFlexibleIte
 import com.andrewkingmarshall.beachbuddy2.viewmodels.ScoreManagementViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import eu.davidea.flexibleadapter.items.IFlexible
-import kotlinx.android.synthetic.main.fragment_score_management.*
 
 @AndroidEntryPoint
 class ScoreManagementFragment : BaseFragment() {
+
+    private val binding get() = _binding!! as FragmentScoreManagementBinding
 
     lateinit var viewModel: ScoreManagementViewModel
 
@@ -42,7 +44,8 @@ class ScoreManagementFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_score_management, container, false)
+        _binding = FragmentScoreManagementBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +55,7 @@ class ScoreManagementFragment : BaseFragment() {
 
         viewModel.usersWithScores.observe(viewLifecycleOwner, { setScoreBoard(it) })
 
-        addGameButton.setOnClickListener {
+        binding.addGameButton.setOnClickListener {
             MaterialDialog(requireContext()).show {
                 input(
                     hint = "Game Name",
@@ -99,13 +102,13 @@ class ScoreManagementFragment : BaseFragment() {
                 true
             )
 
-            manageUserScoreRecyclerView.adapter = adapter
-            manageUserScoreRecyclerView.layoutManager = GridLayoutManager(context, 3)
+            binding.manageUserScoreRecyclerView.adapter = adapter
+            binding.manageUserScoreRecyclerView.layoutManager = GridLayoutManager(context, 3)
 
-            if (manageUserScoreRecyclerView.itemDecorationCount == 0) {
+            if (binding.manageUserScoreRecyclerView.itemDecorationCount == 0) {
                 val itemDecoration =
                     ItemOffsetDecoration(requireContext(), R.dimen.grid_item_offset)
-                manageUserScoreRecyclerView.addItemDecoration(itemDecoration)
+                binding.manageUserScoreRecyclerView.addItemDecoration(itemDecoration)
             }
 
         } else {

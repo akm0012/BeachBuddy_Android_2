@@ -2,24 +2,27 @@ package com.andrewkingmarshall.beachbuddy2.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andrewkingmarshall.beachbuddy2.R
 import com.andrewkingmarshall.beachbuddy2.database.model.User
 import com.andrewkingmarshall.beachbuddy2.database.model.UserWithScores
+import com.andrewkingmarshall.beachbuddy2.databinding.CompoundViewLeaderBoardBinding
 import com.andrewkingmarshall.beachbuddy2.ui.VerticalSpaceItemDecoration
 import com.andrewkingmarshall.beachbuddy2.ui.flexible.LeaderBoardFlexibleAdapter
 import com.andrewkingmarshall.beachbuddy2.ui.flexible.LeaderBoardItemFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
-import kotlinx.android.synthetic.main.compound_view_leader_board.view.*
 
 class LeaderBoardView : FrameLayout {
 
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+
+    private var binding: CompoundViewLeaderBoardBinding =
+        CompoundViewLeaderBoardBinding.inflate(LayoutInflater.from(context), this)
 
     private var adapter: LeaderBoardFlexibleAdapter? = null
 
@@ -32,18 +35,16 @@ class LeaderBoardView : FrameLayout {
     }
 
     init {
-        View.inflate(context, R.layout.compound_view_leader_board, this)
-
         if (resources.getBoolean(R.bool.isTv)) {
-            settingImageView.visibility = GONE
+            binding.settingImageView.visibility = GONE
         }
     }
 
     fun setUsers(userList: List<UserWithScores>, listener: InteractionListener? = null) {
 
         if (listener != null) {
-            settingImageView.setOnClickListener { listener.onSettingsClicked() }
-            darModeToggleImageView.setOnClickListener { listener.onDarkModeToggleClicked() }
+            binding.settingImageView.setOnClickListener { listener.onSettingsClicked() }
+            binding.darModeToggleImageView.setOnClickListener { listener.onDarkModeToggleClicked() }
         }
 
         val flexibleItemList = ArrayList<IFlexible<*>>()
@@ -67,12 +68,12 @@ class LeaderBoardView : FrameLayout {
                 true
             )
 
-            leaderBoardRecyclerView.adapter = adapter
-            leaderBoardRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            binding.leaderBoardRecyclerView.adapter = adapter
+            binding.leaderBoardRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
             // Only add decorations once
-            if (leaderBoardRecyclerView.itemDecorationCount == 0) {
-                leaderBoardRecyclerView.addItemDecoration(
+            if (binding.leaderBoardRecyclerView.itemDecorationCount == 0) {
+                binding.leaderBoardRecyclerView.addItemDecoration(
                     VerticalSpaceItemDecoration(
                         resources.getDimension(R.dimen.leader_board_item_space).toInt(), true
                     )

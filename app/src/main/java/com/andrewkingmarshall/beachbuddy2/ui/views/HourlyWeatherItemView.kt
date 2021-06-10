@@ -2,11 +2,10 @@ package com.andrewkingmarshall.beachbuddy2.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.databinding.CompoundViewHourlyWeatherItemBinding
 import com.andrewkingmarshall.beachbuddy2.ui.views.viewmodels.HourlyWeatherItemViewModel
-import kotlinx.android.synthetic.main.compound_view_hourly_weather_item.view.*
 
 class HourlyWeatherItemView : ConstraintLayout {
 
@@ -14,27 +13,30 @@ class HourlyWeatherItemView : ConstraintLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    init {
-        View.inflate(context, R.layout.compound_view_hourly_weather_item, this)
-    }
+    private var binding: CompoundViewHourlyWeatherItemBinding =
+        CompoundViewHourlyWeatherItemBinding.inflate(LayoutInflater.from(context), this)
 
     private fun resetView() {
-        hourTimeTextView.text = ""
-        hourIconImageView.setImageDrawable(null)
-        summaryTextView.text = ""
-        feelsLikeTextView.text = ""
-        humidityTextView.text = ""
+        binding.apply {
+            hourTimeTextView.text = ""
+            hourIconImageView.setImageDrawable(null)
+            summaryTextView.text = ""
+            feelsLikeTextView.text = ""
+            humidityTextView.text = ""
+        }
     }
 
     fun setViewModel(viewModel: HourlyWeatherItemViewModel) {
         resetView()
 
-        hourTimeTextView.text = viewModel.getTime()
-        summaryTextView.text = viewModel.getSummary()
-        feelsLikeTextView.text = viewModel.getFeelsLike()
-        humidityTextView.text = viewModel.getHumidity()
+        binding.apply {
+            hourTimeTextView.text = viewModel.getTime()
+            summaryTextView.text = viewModel.getSummary()
+            feelsLikeTextView.text = viewModel.getFeelsLike()
+            humidityTextView.text = viewModel.getHumidity()
+        }
 
-        loadImage(context, viewModel.getIconUrl(), hourIconImageView)
+        loadImage(context, viewModel.getIconUrl(), binding.hourIconImageView)
     }
 
 }

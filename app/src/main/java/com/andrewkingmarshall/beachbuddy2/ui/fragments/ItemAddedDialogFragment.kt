@@ -18,9 +18,9 @@ const val DIALOG_COOL_DOWN_MILLIS: Long = 10 * 60 * 1000 // 10 min
 @AndroidEntryPoint
 class ItemAddedDialogFragment : BaseDialogFragment() {
 
-    lateinit var itemViewModel: ItemAddedDialogViewModel
-
     private val binding get() = _binding!! as FragmentDialogItemAddedBinding
+
+    lateinit var itemViewModel: ItemAddedDialogViewModel
 
     var progressBarAnimation = ObjectAnimator()
 

@@ -2,11 +2,10 @@ package com.andrewkingmarshall.beachbuddy2.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.databinding.CompoundViewDailyWeatherItemBinding
 import com.andrewkingmarshall.beachbuddy2.ui.views.viewmodels.DailyWeatherItemViewModel
-import kotlinx.android.synthetic.main.compound_view_daily_weather_item.view.*
 
 class DailyWeatherItemView : ConstraintLayout {
 
@@ -14,27 +13,26 @@ class DailyWeatherItemView : ConstraintLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    init {
-        View.inflate(context, R.layout.compound_view_daily_weather_item, this)
-    }
+    private var binding: CompoundViewDailyWeatherItemBinding =
+        CompoundViewDailyWeatherItemBinding.inflate(LayoutInflater.from(context), this)
 
     private fun resetView() {
-        dayTimeTextView.text = ""
-        dailyIconImageView.setImageDrawable(null)
-        summaryTextView.text = ""
-        feelsLikeTextView.text = ""
-        rainAmountTextView.text = ""
+        binding.dayTimeTextView.text = ""
+        binding.dailyIconImageView.setImageDrawable(null)
+        binding.summaryTextView.text = ""
+        binding.feelsLikeTextView.text = ""
+        binding.rainAmountTextView.text = ""
     }
 
     fun setViewModel(viewModel: DailyWeatherItemViewModel) {
         resetView()
 
-        dayTimeTextView.text = viewModel.getTime()
-        summaryTextView.text = viewModel.getSummary()
-        feelsLikeTextView.text = viewModel.getFeelsLike()
-        rainAmountTextView.text = viewModel.getRain()
+        binding.dayTimeTextView.text = viewModel.getTime()
+        binding.summaryTextView.text = viewModel.getSummary()
+        binding.feelsLikeTextView.text = viewModel.getFeelsLike()
+        binding.rainAmountTextView.text = viewModel.getRain()
 
-        loadImage(context, viewModel.getIconUrl(), dailyIconImageView)
+        loadImage(context, viewModel.getIconUrl(), binding.dailyIconImageView)
     }
 
 }

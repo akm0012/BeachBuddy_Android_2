@@ -2,18 +2,17 @@ package com.andrewkingmarshall.beachbuddy2.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.databinding.CompoundViewBeachConditionsBinding
 import com.andrewkingmarshall.beachbuddy2.enums.BeachConditionItemType
 import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.WeatherDM
 import com.andrewkingmarshall.beachbuddy2.ui.flexible.BeachConditionFlexibleItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import kotlinx.android.synthetic.main.compound_view_beach_conditions.view.*
 
 
 class BeachConditionsView : FrameLayout {
@@ -24,6 +23,9 @@ class BeachConditionsView : FrameLayout {
 
     private var adapter: FlexibleAdapter<IFlexible<*>>? = null
 
+    private var binding: CompoundViewBeachConditionsBinding =
+        CompoundViewBeachConditionsBinding.inflate(LayoutInflater.from(context), this)
+
     var viewWidth: Int = 0
 
     var viewHeight: Int = 0
@@ -31,8 +33,6 @@ class BeachConditionsView : FrameLayout {
     var currentWeather: WeatherDM? = null
 
     init {
-        View.inflate(context, R.layout.compound_view_beach_conditions, this)
-
         viewTreeObserver.addOnGlobalLayoutListener(object :
             ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -75,8 +75,8 @@ class BeachConditionsView : FrameLayout {
 
             adapter = FlexibleAdapter(flexibleItemList)
 
-            beachConditionsRecyclerView.adapter = adapter
-            beachConditionsRecyclerView.layoutManager =
+            binding.beachConditionsRecyclerView.adapter = adapter
+            binding.beachConditionsRecyclerView.layoutManager =
                 LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
         } else {

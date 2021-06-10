@@ -23,9 +23,9 @@ import eu.davidea.flexibleadapter.items.IFlexible
 @AndroidEntryPoint
 class RequestedItemsFragment : BaseFragment() {
 
-    lateinit var viewModel: RequestedItemViewModel
-
     private val binding get() = _binding!! as FragmentRequestedItemsBinding
+
+    lateinit var viewModel: RequestedItemViewModel
 
     private val adapter = RequestedItemFlexibleAdapter(
         null,

@@ -2,12 +2,12 @@ package com.andrewkingmarshall.beachbuddy2.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.databinding.CompoundViewBeachConditionItemBinding
 import com.andrewkingmarshall.beachbuddy2.ui.views.viewmodels.BeachConditionItemViewModel
-import kotlinx.android.synthetic.main.compound_view_beach_condition_item.view.*
 
 class BeachConditionItemView : ConstraintLayout {
 
@@ -15,15 +15,14 @@ class BeachConditionItemView : ConstraintLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    init {
-        View.inflate(context, R.layout.compound_view_beach_condition_item, this)
-    }
+    private var binding: CompoundViewBeachConditionItemBinding =
+        CompoundViewBeachConditionItemBinding.inflate(LayoutInflater.from(context), this)
 
     private fun resetView() {
-        iconImageView.setImageDrawable(null)
-        titleTextView.text = ""
-        contentTextView.text = ""
-        bottomDivider.visibility = View.GONE
+        binding.iconImageView.setImageDrawable(null)
+        binding.titleTextView.text = ""
+        binding.contentTextView.text = ""
+        binding.bottomDivider.visibility = View.GONE
     }
 
     fun setHeight(height: Int) {
@@ -34,17 +33,17 @@ class BeachConditionItemView : ConstraintLayout {
 
     fun setViewModel(viewModel: BeachConditionItemViewModel) {
         resetView()
-        iconImageView.setImageDrawable(ContextCompat.getDrawable(context, viewModel.getIconDrawable()))
-        titleTextView.text = viewModel.getTitle()
-        contentTextView.text = viewModel.getContent()
+        binding.iconImageView.setImageDrawable(ContextCompat.getDrawable(context, viewModel.getIconDrawable()))
+        binding.titleTextView.text = viewModel.getTitle()
+        binding.contentTextView.text = viewModel.getContent()
 
     }
 
     fun setBottomDividerVisibility(isVisible: Boolean) {
         if (isVisible) {
-            bottomDivider.visibility = View.VISIBLE
+            binding.bottomDivider.visibility = View.VISIBLE
         } else {
-            bottomDivider.visibility = View.GONE
+            binding.bottomDivider.visibility = View.GONE
         }
     }
 }

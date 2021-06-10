@@ -2,10 +2,9 @@ package com.andrewkingmarshall.beachbuddy2.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.andrewkingmarshall.beachbuddy2.R
-import kotlinx.android.synthetic.main.compound_view_score_tally_item.view.*
+import com.andrewkingmarshall.beachbuddy2.databinding.CompoundViewScoreTallyItemBinding
 
 class ScoreTallyView : ConstraintLayout {
 
@@ -13,9 +12,8 @@ class ScoreTallyView : ConstraintLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    init {
-        View.inflate(context, R.layout.compound_view_score_tally_item, this)
-    }
+    private var binding: CompoundViewScoreTallyItemBinding =
+        CompoundViewScoreTallyItemBinding.inflate(LayoutInflater.from(context), this)
 
     var listener: InteractionListener? = null
 
@@ -26,19 +24,22 @@ class ScoreTallyView : ConstraintLayout {
     }
 
     private fun resetView() {
-        gameNameTextView.text = ""
-        scoreTextView.text = ""
+        binding.apply {
+            gameNameTextView.text = ""
+            scoreTextView.text = ""
+        }
     }
 
     fun setScore(gameName: String, score: Int = 0, listener: InteractionListener) {
 
         resetView()
 
-        gameNameTextView.text = gameName
-        scoreTextView.text = score.toString()
+        binding.apply {
+            gameNameTextView.text = gameName
+            scoreTextView.text = score.toString()
 
-        decrementButton.setOnClickListener { listener.onDecrement() }
-        incrementButton.setOnClickListener { listener.onIncrement() }
+            decrementButton.setOnClickListener { listener.onDecrement() }
+            incrementButton.setOnClickListener { listener.onIncrement() }
+        }
     }
-
 }

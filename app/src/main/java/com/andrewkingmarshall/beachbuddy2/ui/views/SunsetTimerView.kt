@@ -2,11 +2,10 @@ package com.andrewkingmarshall.beachbuddy2.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
-import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.databinding.CompoundViewSunsetTimerBinding
 import com.andrewkingmarshall.beachbuddy2.ui.views.viewmodels.SunsetTimerViewModel
-import kotlinx.android.synthetic.main.compound_view_sunset_timer.view.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 
@@ -18,9 +17,8 @@ class SunsetTimerView : FrameLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    init {
-        View.inflate(context, R.layout.compound_view_sunset_timer, this)
-    }
+    private var binding: CompoundViewSunsetTimerBinding =
+        CompoundViewSunsetTimerBinding.inflate(LayoutInflater.from(context), this)
 
     fun setSunsetSunriseTimes(
         sunrise: Long,
@@ -35,11 +33,14 @@ class SunsetTimerView : FrameLayout {
     fun updateTimer() {
         val currentTime = DateTime().withZone(DateTimeZone.getDefault()).millis
 
-        sunsetCountDownTextView.text = viewModel?.getTimerText(currentTime)
-        sunsetTimeTextView.text = viewModel?.getSubtitleTime(currentTime)
-        val progressInt = viewModel?.getProgressInt(currentTime) ?: 0
-        arcProgressView.progress = progressInt
-        arcProgressView.bottomText = viewModel?.getBottomLabel(currentTime)
+        binding.apply {
+
+            sunsetCountDownTextView.text = viewModel?.getTimerText(currentTime)
+            sunsetTimeTextView.text = viewModel?.getSubtitleTime(currentTime)
+            val progressInt = viewModel?.getProgressInt(currentTime) ?: 0
+            arcProgressView.progress = progressInt
+            arcProgressView.bottomText = viewModel?.getBottomLabel(currentTime)
+        }
     }
 
     companion object {

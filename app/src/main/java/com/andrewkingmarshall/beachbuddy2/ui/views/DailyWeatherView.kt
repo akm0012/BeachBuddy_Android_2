@@ -2,16 +2,15 @@ package com.andrewkingmarshall.beachbuddy2.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.andrewkingmarshall.beachbuddy2.R
 import com.andrewkingmarshall.beachbuddy2.database.model.DailyWeatherInfo
+import com.andrewkingmarshall.beachbuddy2.databinding.CompoundViewDailyWeatherBinding
 import com.andrewkingmarshall.beachbuddy2.ui.flexible.DailyWeatherFlexibleItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import kotlinx.android.synthetic.main.compound_view_daily_weather.view.*
 
 class DailyWeatherView : FrameLayout {
 
@@ -19,12 +18,10 @@ class DailyWeatherView : FrameLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
+    private var binding: CompoundViewDailyWeatherBinding =
+        CompoundViewDailyWeatherBinding.inflate(LayoutInflater.from(context), this)
+
     private var adapter: FlexibleAdapter<IFlexible<*>>? = null
-
-    init {
-        View.inflate(context, R.layout.compound_view_daily_weather, this)
-    }
-
 
     fun setWeather(dailyWeatherInfoList: List<DailyWeatherInfo>) {
 
@@ -38,8 +35,8 @@ class DailyWeatherView : FrameLayout {
 
             adapter = FlexibleAdapter(flexibleItemList)
 
-            dailyWeatherRecyclerView.adapter = adapter
-            dailyWeatherRecyclerView.layoutManager =
+            binding.dailyWeatherRecyclerView.adapter = adapter
+            binding.dailyWeatherRecyclerView.layoutManager =
                 LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
         } else {

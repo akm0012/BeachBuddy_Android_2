@@ -2,12 +2,12 @@ package com.andrewkingmarshall.beachbuddy2.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import com.andrewkingmarshall.beachbuddy2.R
+import com.andrewkingmarshall.beachbuddy2.databinding.CompoundViewCurrentUvBinding
 import com.andrewkingmarshall.beachbuddy2.ui.views.viewmodels.CurrentUvViewModel
-import kotlinx.android.synthetic.main.compound_view_current_uv.view.*
 
 class CurrentUvView : FrameLayout {
 
@@ -17,29 +17,28 @@ class CurrentUvView : FrameLayout {
 
     private var viewModel: CurrentUvViewModel? = null
 
-    init {
-        View.inflate(context, R.layout.compound_view_current_uv, this)
-    }
+    private var binding: CompoundViewCurrentUvBinding =
+        CompoundViewCurrentUvBinding.inflate(LayoutInflater.from(context), this)
 
     fun setViewModel(viewModel: CurrentUvViewModel) {
 
         this.viewModel = viewModel
 
-        sunView.setCurrentTime(viewModel.getSunViewStartTime())
+        binding.sunView.setCurrentTime(viewModel.getSunViewStartTime())
 
-        sunView.apply {
+        binding.sunView.apply {
             setStartTime(viewModel.getSunViewStartTime())
             setEndTime(viewModel.getSunViewEndTime())
             setCurrentTime(viewModel.getSunViewCurrentTime())
             setArcSolidColor(ContextCompat.getColor(context, viewModel.getUvColor()))
-            sunView.invalidate()
+            binding.sunView.invalidate()
         }
 
-        if (safeExposureTimeTextView.visibility == View.VISIBLE) {
-            safeExposureTimeTextView.text = viewModel.getTimeToBurn(null)
+        if (binding.safeExposureTimeTextView.visibility == View.VISIBLE) {
+            binding.safeExposureTimeTextView.text = viewModel.getTimeToBurn(null)
         }
 
-        uvIndexTextView.text = viewModel.getUvIndex()
+        binding.uvIndexTextView.text = viewModel.getUvIndex()
     }
 
     fun getSafeExposureTimeForSkinType(skinType: Int?): String {
@@ -47,14 +46,14 @@ class CurrentUvView : FrameLayout {
     }
 
     fun showSafeExposureTimeForSkinType(skinType: Int?) {
-        safeExposureTimeTextView.text = viewModel?.getTimeToBurn(skinType)
+        binding.safeExposureTimeTextView.text = viewModel?.getTimeToBurn(skinType)
 
-        safeExposureTitle.visibility = View.VISIBLE
-        safeExposureTimeTextView.visibility = View.VISIBLE
+        binding.safeExposureTitle.visibility = View.VISIBLE
+        binding.safeExposureTimeTextView.visibility = View.VISIBLE
     }
 
     fun clearSafeExposureTime() {
-        safeExposureTitle.visibility = View.GONE
-        safeExposureTimeTextView.visibility = View.GONE
+        binding.safeExposureTitle.visibility = View.GONE
+        binding.safeExposureTimeTextView.visibility = View.GONE
     }
 }
