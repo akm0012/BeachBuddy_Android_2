@@ -25,9 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import eu.davidea.flexibleadapter.items.IFlexible
 
 @AndroidEntryPoint
-class ScoreManagementFragment : BaseFragment() {
-
-    private val binding get() = _binding!! as FragmentScoreManagementBinding
+class ScoreManagementFragment : BaseFragment<FragmentScoreManagementBinding>(FragmentScoreManagementBinding::inflate) {
 
     lateinit var viewModel: ScoreManagementViewModel
 
@@ -39,18 +37,7 @@ class ScoreManagementFragment : BaseFragment() {
         viewModel = ViewModelProvider(requireActivity()).get(ScoreManagementViewModel::class.java)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        _binding = FragmentScoreManagementBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setup(view: View) {
         viewModel.showToast.observe(viewLifecycleOwner, { it.toast(requireContext()) })
 
         viewModel.usersWithScores.observe(viewLifecycleOwner, { setScoreBoard(it) })

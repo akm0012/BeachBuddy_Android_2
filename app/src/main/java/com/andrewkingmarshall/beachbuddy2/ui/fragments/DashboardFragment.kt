@@ -28,9 +28,9 @@ import kotlinx.coroutines.launch
 const val TIME_TO_SHOW_TIME_TO_BURN_MS: Long = 5 * 1000 // 5 sec
 
 @AndroidEntryPoint
-class DashboardFragment : BaseFragment() {
+class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
 
-    private val binding get() = _binding!! as FragmentDashboardBinding
+//    private val binding get() = _binding!! as FragmentDashboardBinding
 
     lateinit var viewModel: DashboardViewModel
 
@@ -49,17 +49,7 @@ class DashboardFragment : BaseFragment() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setup(view: View) {
         navController = Navigation.findNavController(view)
 
         setUpLeaderboard()

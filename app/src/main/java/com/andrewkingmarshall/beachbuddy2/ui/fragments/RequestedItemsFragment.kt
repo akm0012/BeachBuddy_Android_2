@@ -21,9 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import eu.davidea.flexibleadapter.items.IFlexible
 
 @AndroidEntryPoint
-class RequestedItemsFragment : BaseFragment() {
-
-    private val binding get() = _binding!! as FragmentRequestedItemsBinding
+class RequestedItemsFragment : BaseFragment<FragmentRequestedItemsBinding>(FragmentRequestedItemsBinding::inflate) {
 
     lateinit var viewModel: RequestedItemViewModel
 
@@ -44,17 +42,7 @@ class RequestedItemsFragment : BaseFragment() {
         viewModel = ViewModelProvider(requireActivity()).get(RequestedItemViewModel::class.java)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRequestedItemsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setup(view: View) {
         setUpSwipeToRefresh()
 
         setUpRecyclerView()

@@ -16,9 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 const val DIALOG_COOL_DOWN_MILLIS: Long = 10 * 60 * 1000 // 10 min
 
 @AndroidEntryPoint
-class ItemAddedDialogFragment : BaseDialogFragment() {
-
-    private val binding get() = _binding!! as FragmentDialogItemAddedBinding
+class ItemAddedDialogFragment : BaseDialogFragment<FragmentDialogItemAddedBinding>(FragmentDialogItemAddedBinding::inflate) {
 
     lateinit var itemViewModel: ItemAddedDialogViewModel
 
@@ -32,18 +30,7 @@ class ItemAddedDialogFragment : BaseDialogFragment() {
             ViewModelProvider(requireActivity()).get(ItemAddedDialogViewModel::class.java)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDialogItemAddedBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setup(view: View) {
         itemViewModel.onDialogShown()
 
         // Listen for title
