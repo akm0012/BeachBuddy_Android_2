@@ -21,6 +21,12 @@ class CurrentWeatherViewModel constructor(
 
 
     fun getCityName(): String {
+
+        // Special case, if Beach is Closed
+        if (beachConditions.flagColor == DOUBLE_RED) {
+            return "BEACH CLOSED!"
+        }
+
         val geocoder = Geocoder(context, Locale.getDefault())
         val addresses: List<Address> =
             geocoder.getFromLocation(currentWeather.latitude, currentWeather.longitude, 1)
@@ -53,10 +59,9 @@ class CurrentWeatherViewModel constructor(
             GREEN -> R.color.flag_green
             YELLOW -> R.color.flag_yellow
             PURPLE -> R.color.flag_purple
-            RED -> R.color.flag_red
-            DOUBLE_RED -> R.color.white
+            RED, DOUBLE_RED -> R.color.flag_red
             UNKNOWN -> R.color.white
-            null -> R.color.white
+            else -> R.color.white
         }
     }
 
@@ -64,12 +69,11 @@ class CurrentWeatherViewModel constructor(
     fun getTextColor(): Int {
         return when (beachConditions.flagColor) {
             GREEN -> R.color.white
-            YELLOW -> R.color.dashboard_text_dark
+            YELLOW -> R.color.dark_gray
             PURPLE -> R.color.white
-            RED -> R.color.white
-            DOUBLE_RED -> R.color.dashboard_text_dark
+            RED, DOUBLE_RED -> R.color.white
             UNKNOWN -> R.color.dashboard_text_dark
-            null -> R.color.dashboard_text_dark
+            else -> R.color.dashboard_text_dark
         }
     }
 
@@ -77,12 +81,11 @@ class CurrentWeatherViewModel constructor(
     fun getSecondaryTextColor(): Int {
         return when (beachConditions.flagColor) {
             GREEN -> R.color.white
-            YELLOW -> R.color.dashboard_text
+            YELLOW -> R.color.dark_gray
             PURPLE -> R.color.white
-            RED -> R.color.white
-            DOUBLE_RED -> R.color.dashboard_text
+            RED, DOUBLE_RED -> R.color.white
             UNKNOWN -> R.color.dashboard_text
-            null -> R.color.dashboard_text
+            else -> R.color.dashboard_text
         }
     }
 }

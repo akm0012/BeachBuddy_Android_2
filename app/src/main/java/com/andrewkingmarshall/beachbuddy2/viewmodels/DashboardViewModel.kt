@@ -2,6 +2,7 @@ package com.andrewkingmarshall.beachbuddy2.viewmodels
 
 import androidx.lifecycle.*
 import com.andrewkingmarshall.beachbuddy2.database.model.*
+import com.andrewkingmarshall.beachbuddy2.enums.FlagColor
 import com.andrewkingmarshall.beachbuddy2.repository.DashboardRefreshError
 import com.andrewkingmarshall.beachbuddy2.repository.DashboardRepository
 import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.WeatherDM
@@ -48,6 +49,11 @@ class DashboardViewModel @Inject constructor(
 
     val weatherDomainModel: LiveData<WeatherDM?> =
         dashboardRepository.weatherDomainModelFlow.asLiveData()
+
+    val isBeachClosed: LiveData<Boolean> =
+        dashboardRepository.beachConditionsFlow.map { beachConditions ->
+            beachConditions?.flagColor == FlagColor.DOUBLE_RED
+        }.asLiveData()
 
     val beachConditions: LiveData<BeachConditions?> =
         dashboardRepository.beachConditionsFlow.asLiveData()

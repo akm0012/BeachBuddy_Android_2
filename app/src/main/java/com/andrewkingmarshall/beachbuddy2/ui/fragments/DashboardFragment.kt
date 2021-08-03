@@ -30,8 +30,6 @@ const val TIME_TO_SHOW_TIME_TO_BURN_MS: Long = 5 * 1000 // 5 sec
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
 
-//    private val binding get() = _binding!! as FragmentDashboardBinding
-
     lateinit var viewModel: DashboardViewModel
 
     lateinit var itemViewModel: ItemAddedDialogViewModel
@@ -140,6 +138,14 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
     }
 
     private fun setUpBeachConditions() {
+        viewModel.isBeachClosed.observe(viewLifecycleOwner, { beachClosed ->
+            if (beachClosed) {
+                binding.secondaryRootLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.flag_red))
+            } else {
+                binding.secondaryRootLayout.background = null
+            }
+        })
+
         viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
 
             if (it == null) {
