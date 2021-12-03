@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andrewkingmarshall.beachbuddy2.R
 import com.andrewkingmarshall.beachbuddy2.database.model.RequestedItem
 import com.andrewkingmarshall.beachbuddy2.databinding.FragmentRequestedItemsBinding
+import com.andrewkingmarshall.beachbuddy2.extensions.toast
 import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.RequestedItemsDM
 import com.andrewkingmarshall.beachbuddy2.ui.flexible.RequestedItemEmptyStateFlexibleItem
 import com.andrewkingmarshall.beachbuddy2.ui.flexible.RequestedItemFlexibleAdapter
@@ -46,6 +47,10 @@ class RequestedItemsFragment : BaseFragment<FragmentRequestedItemsBinding>(Fragm
         setUpSwipeToRefresh()
 
         setUpRecyclerView()
+
+        viewModel.requestedItemErrorEvent.observe(
+            viewLifecycleOwner,
+            { it.message?.toast(requireContext()) })
 
         viewModel.requestedItemsDomainModel.observe(viewLifecycleOwner,
             { setBothRequestedAndCompletedItems(it) })

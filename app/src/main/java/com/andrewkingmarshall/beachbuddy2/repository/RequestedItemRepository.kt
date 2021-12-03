@@ -7,6 +7,7 @@ import com.andrewkingmarshall.beachbuddy2.network.service.ApiService
 import com.andrewkingmarshall.beachbuddy2.ui.domainmodels.RequestedItemsDM
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -23,6 +24,9 @@ class RequestedItemRepository @Inject constructor(
 
     private val newItemsAddedChannel = Channel<RequestedItem>(Channel.RENDEZVOUS)
     val newItemsFlow = newItemsAddedChannel.receiveAsFlow()
+
+    private val errorChannel = Channel<RequestedItemError>(Channel.RENDEZVOUS)
+    val errorFlow = errorChannel.receiveAsFlow()
 
     fun getRequestedItemsDomainModel(): Flow<RequestedItemsDM> {
         GlobalScope.launch {
@@ -78,9 +82,9 @@ class RequestedItemRepository @Inject constructor(
             }
             userDao.deleteRequestedItems(invalidItems)
 
-        } catch (cause: Exception) {
+        } catch (cause: Throwable) {
             Timber.w(cause, "Unable to refresh the requested items.")
-            throw cause
+            sendErrorToChannel("Unable to refresh the requested items.", cause)
         }
     }
 
@@ -118,5 +122,15 @@ class RequestedItemRepository @Inject constructor(
             Timber.w(cause, "Unable to delete old completed Items.")
         }
     }
+
+    private suspend fun sendErrorToChannel(message: String, cause: Throwable?) {
+        val errorMessage = cause?.let { "${cause.localizedMessage}: $message" } ?: message
+
+        Timber.w(cause)
+
+        errorChannel.send(RequestedItemError(errorMessage, cause))
+    }
+
+    class RequestedItemError(message: String, cause: Throwable?) : Throwable(message, cause)
 
 }

@@ -3,6 +3,7 @@ package com.andrewkingmarshall.beachbuddy2.repository
 import com.andrewkingmarshall.beachbuddy2.network.requests.AddDeviceRequest
 import com.andrewkingmarshall.beachbuddy2.network.service.ApiService
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject

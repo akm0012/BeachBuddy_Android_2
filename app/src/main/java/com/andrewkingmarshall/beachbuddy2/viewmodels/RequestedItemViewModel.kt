@@ -23,6 +23,8 @@ class RequestedItemViewModel @Inject constructor(
     val requestedItemsDomainModel: LiveData<RequestedItemsDM> =
         requestedItemRepository.getRequestedItemsDomainModel().asLiveData()
 
+    val requestedItemErrorEvent = requestedItemRepository.errorFlow.asLiveData()
+
     fun onRequestedItemChecked(requestedItem: RequestedItem) {
         viewModelScope.launch {
             try {

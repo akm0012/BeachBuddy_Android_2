@@ -35,9 +35,10 @@ class ErrorInterceptor(private val context: Context) : Interceptor {
             if (httpErrorCode == 500) {
                 errorDescription = "Internal Server Error (500)"
             }
+            val url = response.request.url
             val networkException =
-                NetworkException(errorDescription, httpErrorCode)
-            Timber.w(networkException, "Network Error occurred: %s", networkException.toString())
+                NetworkException(errorDescription, httpErrorCode, url.toString())
+            Timber.w(networkException, "Network Error occurred: ${networkException.toString()} URL: $url")
             throw networkException
         }
         return response
@@ -47,4 +48,4 @@ class ErrorInterceptor(private val context: Context) : Interceptor {
 
 // Note: This has to be IOException, otherwise Coroutines will crash:
 //      https://stackoverflow.com/questions/58697459/handle-exceptions-thrown-by-a-custom-okhttp-interceptor-in-kotlin-coroutines
-class NetworkException(val errorMessage: String, val httpErrorCode: Int = -1) : IOException(errorMessage)
+class NetworkException(val errorMessage: String, val httpErrorCode: Int = -1, val url: String = "N/A") : IOException("'$errorMessage'. Url: $url")
