@@ -11,6 +11,8 @@ import timber.log.Timber
 import java.util.*
 import kotlin.math.roundToInt
 
+const val DEFAULT_LOCALITY = "Siesta Key"
+
 class CurrentWeatherViewModel constructor(
     val context: Context,
     weather: WeatherDM,
@@ -27,17 +29,24 @@ class CurrentWeatherViewModel constructor(
             return "BEACH CLOSED!"
         }
 
-        val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses: List<Address> =
-            geocoder.getFromLocation(currentWeather.latitude, currentWeather.longitude, 1)
-        val locality = if (addresses.isNotEmpty()) {
-            addresses[0].locality
-        } else {
-            Timber.w("Locality was not found!")
-            "Siesta Key"
+        try {
+            val geocoder = Geocoder(context, Locale.getDefault())
+            val addresses: List<Address> =
+                geocoder.getFromLocation(currentWeather.latitude, currentWeather.longitude, 1)
+            val locality = if (addresses.isNotEmpty()) {
+                addresses[0].locality
+            } else {
+                Timber.w("Locality was not found!")
+                DEFAULT_LOCALITY
+            }
+
+            return locality
+
+        } catch (e: Exception) {
+            Timber.e(e)
         }
 
-        return locality
+        return DEFAULT_LOCALITY
     }
 
     fun getWeatherDescription(): String {
