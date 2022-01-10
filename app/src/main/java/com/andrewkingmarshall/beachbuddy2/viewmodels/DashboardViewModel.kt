@@ -26,15 +26,6 @@ class DashboardViewModel @Inject constructor(
     private val dashboardRepository: DashboardRepository,
 ) : ViewModel() {
 
-    init {
-        viewModelScope.launch {
-            while (true) {
-                onAutoUpdatePeriodHit()
-                delay(AUTO_UPDATE_MILLIS)
-            }
-        }
-    }
-
     private var lastDashboardRefresh = 0L
 
     val showToast: SingleLiveEvent<String> = SingleLiveEvent()
@@ -72,6 +63,15 @@ class DashboardViewModel @Inject constructor(
 
     val sunsetInfo: LiveData<SunsetInfo?> =
         dashboardRepository.sunsetInfoFlow.asLiveData()
+
+    init {
+        viewModelScope.launch {
+            while (true) {
+                onAutoUpdatePeriodHit()
+                delay(AUTO_UPDATE_MILLIS)
+            }
+        }
+    }
 
     /**
      * This is a simple timer that will emit "true" every X millis
@@ -152,7 +152,7 @@ class DashboardViewModel @Inject constructor(
 
             } else {
                 // Update every hour
-                Timber.d("We are in ideal Time")
+                Timber.d("We are in idle Time")
                 // If it has been an hour
                 if (currentDateTime.isAfter(
                         DateTime(lastDashboardRefresh).plusMinutes(
@@ -174,6 +174,4 @@ class DashboardViewModel @Inject constructor(
             refreshDashboardData()
         }
     }
-
-
 }

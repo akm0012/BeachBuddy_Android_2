@@ -45,7 +45,7 @@ class LeaderBoardItemViewModel(
     }
 
     fun getProfilePhotoUrl(): String {
-        return "${context.getString(R.string.base_endpoint)}/${user.photoUrl}"
+        return "${context.getString(R.string.base_endpoint)}${user.photoUrl}"
     }
 
 }

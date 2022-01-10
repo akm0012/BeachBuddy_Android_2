@@ -18,6 +18,7 @@ import com.andrewkingmarshall.beachbuddy2.databinding.FragmentDashboardBinding
 import com.andrewkingmarshall.beachbuddy2.extensions.toast
 import com.andrewkingmarshall.beachbuddy2.ui.views.LeaderBoardView
 import com.andrewkingmarshall.beachbuddy2.ui.views.viewmodels.CurrentUvViewModel
+import com.andrewkingmarshall.beachbuddy2.viewmodels.DarkModeViewModel
 import com.andrewkingmarshall.beachbuddy2.viewmodels.DashboardViewModel
 import com.andrewkingmarshall.beachbuddy2.viewmodels.ItemAddedDialogViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +33,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
 
     lateinit var viewModel: DashboardViewModel
 
+    lateinit var darkModeViewModel: DarkModeViewModel
+
     lateinit var itemViewModel: ItemAddedDialogViewModel
 
     lateinit var navController: NavController
@@ -42,6 +45,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(DashboardViewModel::class.java)
+        darkModeViewModel = ViewModelProvider(requireActivity()).get(DarkModeViewModel::class.java)
         itemViewModel =
             ViewModelProvider(requireActivity()).get(ItemAddedDialogViewModel::class.java)
 
@@ -73,6 +77,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         viewModel.dashboardRefreshErrorEvent.observe(
             viewLifecycleOwner,
             { it.message?.toast(requireContext()) })
+
         viewModel.showToast.observe(viewLifecycleOwner, { it.toast(requireContext()) })
     }
 
@@ -89,27 +94,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
                 }
 
                 override fun onDarkModeToggleClicked() {
-
-                    when (AppCompatDelegate.getDefaultNightMode()) {
-
-                        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
-                        AppCompatDelegate.MODE_NIGHT_NO,
-                        AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                            "Dark Mode On".toast(requireContext())
-                        }
-
-                        AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY,
-                        AppCompatDelegate.MODE_NIGHT_YES -> {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                            "Dark Mode Off".toast(requireContext())
-                        }
-
-                        else -> {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                            "Dark Mode Off".toast(requireContext())
-                        }
-                    }
+                    darkModeViewModel.onDarkModeButtonPressed()
                 }
 
                 override fun onUserClicked(user: User) {

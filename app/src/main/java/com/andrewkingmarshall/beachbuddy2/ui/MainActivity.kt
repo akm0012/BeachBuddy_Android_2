@@ -1,9 +1,7 @@
 package com.andrewkingmarshall.beachbuddy2.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
