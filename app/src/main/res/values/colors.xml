@@ -81,7 +81,8 @@
     <!--  Dark Mode colors   -->
     <color name="space_gray">#2D2C2D</color>
 
-    <!--  Note: Themes are not working on this view.  -->
+    <!--  Note: Themes are not working on these views.  -->
     <color name="uv_index_view_background">@color/white</color>
+    <color name="dashboard_background_color">@color/off_white</color>
 
 </resources>

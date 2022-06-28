@@ -70,15 +70,15 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
 
         setUpSwipeToRefresh()
 
-        itemViewModel.showNewItemAddedDialogEvent.observe(viewLifecycleOwner, {
+        itemViewModel.showNewItemAddedDialogEvent.observe(viewLifecycleOwner) {
             navController.navigate(R.id.action_dashboardFragment_to_itemAddedDialogFragment)
-        })
+        }
 
         viewModel.dashboardRefreshErrorEvent.observe(
-            viewLifecycleOwner,
-            { it.message?.toast(requireContext()) })
+            viewLifecycleOwner
+        ) { it.message?.toast(requireContext()) }
 
-        viewModel.showToast.observe(viewLifecycleOwner, { it.toast(requireContext()) })
+        viewModel.showToast.observe(viewLifecycleOwner) { it.toast(requireContext()) }
     }
 
     private fun setUpLeaderboard() {
@@ -123,13 +123,18 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
     }
 
     private fun setUpBeachConditions() {
-        viewModel.isBeachClosed.observe(viewLifecycleOwner, { beachClosed ->
+        viewModel.isBeachClosed.observe(viewLifecycleOwner) { beachClosed ->
             if (beachClosed) {
-                binding.secondaryRootLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.flag_red))
+                binding.secondaryRootLayout.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.flag_red
+                    )
+                )
             } else {
                 binding.secondaryRootLayout.background = null
             }
-        })
+        }
 
         viewModel.weatherDomainModel.observe(viewLifecycleOwner, Observer {
 
@@ -200,9 +205,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
             )
         })
 
-        viewModel.sunsetViewUpdateTimer.observe(viewLifecycleOwner, {
+        viewModel.sunsetViewUpdateTimer.observe(viewLifecycleOwner) {
             binding.sunsetTimerView.updateTimer()
-        })
+        }
     }
 
     private fun setUpSwipeToRefresh() {
@@ -212,7 +217,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         )
         binding.dashboardSwipeRefreshLayout.setOnRefreshListener { viewModel.onPullToRefresh() }
         viewModel.showLoadingEvent.observe(
-            viewLifecycleOwner, { binding.dashboardSwipeRefreshLayout.isRefreshing = it })
+            viewLifecycleOwner
+        ) { binding.dashboardSwipeRefreshLayout.isRefreshing = it }
     }
 
 }
