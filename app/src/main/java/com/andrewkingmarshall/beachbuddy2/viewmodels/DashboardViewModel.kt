@@ -111,6 +111,7 @@ class DashboardViewModel @Inject constructor(
             try {
                 dashboardRepository.refreshDashboard()
             } catch (error: DashboardRefreshError) {
+                Timber.e(error, "Unable to refresh the dashboard! - ${error.localizedMessage}")
                 showToast.value = error.message
             } finally {
                 showLoadingEvent.value = false
