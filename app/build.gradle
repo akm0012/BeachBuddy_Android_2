@@ -19,6 +19,8 @@ android {
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField ("String", "SPOTIFY_API_KEY", getSpotifyApiKey())
     }
 
     buildTypes {
@@ -40,6 +42,9 @@ android {
 }
 
 dependencies {
+    implementation files('../libs/spotify-app-remote.aar')
+    implementation 'com.spotify.android:auth:1.2.5' // Maven dependency
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def room_version = "2.2.6"
     def work_version = "2.5.0"
@@ -131,4 +136,11 @@ dependencies {
     testImplementation "joda-time:joda-time:2.10.1"
     testImplementation 'org.mockito:mockito-core:2.23.0'
 
+}
+
+String getSpotifyApiKey() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['SPOTIFY_API_KEY']
 }
