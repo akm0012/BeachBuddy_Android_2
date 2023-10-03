@@ -50,7 +50,8 @@
             app:layout_constraintBottom_toTopOf="@id/dailyWeatherView"
             app:layout_constraintEnd_toStartOf="@id/leaderBoardView"
             app:layout_constraintStart_toEndOf="@id/beachConditionsView"
-            app:layout_constraintTop_toBottomOf="@id/sunsetTimerView" />
+            app:layout_constraintTop_toBottomOf="@id/sunsetTimerView"
+            tools:background="@color/purple_700" />
 
         <com.andrewkingmarshall.beachbuddy2.ui.views.DailyWeatherView
             android:id="@+id/dailyWeatherView"
@@ -59,7 +60,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/leaderBoardView"
             app:layout_constraintStart_toEndOf="@id/beachConditionsView"
-            app:layout_constraintTop_toBottomOf="@id/hourlyWeatherView" />
+            app:layout_constraintTop_toBottomOf="@id/hourlyWeatherView"
+            tools:background="@color/flag_red" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/dashboardSwipeRefreshLayout"
@@ -80,6 +82,7 @@
             android:id="@+id/leaderBoardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

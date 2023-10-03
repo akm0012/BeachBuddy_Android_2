@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Beach Buddy</string>
 
-    <string name="base_endpoint" translatable="false">https://25db-24-131-46-206.ngrok.io/</string>
+    <string name="base_endpoint" translatable="false">https://flexible-ox-accurately.ngrok-free.app/</string>
 
     <!-- Errors -->
     <string name="no_network_detected">Sorry, you appear to be offline.</string>
